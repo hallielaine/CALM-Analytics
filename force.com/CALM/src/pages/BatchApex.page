@@ -1,0 +1,149 @@
+<apex:page controller="BatchApexRunner" showHeader="false" docType="html-5.0" standardStylesheets="false">
+
+        <script>
+        
+        Visualforce.remoting.timeout = 120000;
+        
+        function remoteRunDailyLineSweeper()
+        {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.BatchApexRunner.remoteRunDailyLineSweeper}',
+                function(result, event)
+                {
+                    console.log(result);
+                },
+                {escape: true}
+            );
+        }
+        
+        function deleteLineEntries()
+        {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.BatchApexRunner.remoteDeleteLineEntries}',
+                function(result, event)
+                {
+                    console.log(result);
+                },
+                {escape: true}
+            );
+        }
+        
+        function remoteRunDailyBarSweeper()
+        {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.BatchApexRunner.remoteRunDailyBarSweeper}',
+                function(result, event)
+                {
+                    console.log(result);
+                },
+                {escape: true}
+            );
+        }
+        
+        function deleteBarEntries()
+        {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.BatchApexRunner.remoteDeleteBarEntries}',
+                function(result, event)
+                {
+                    console.log(result);
+                },
+                {escape: true}
+            );
+        }
+        
+        function sweepMonthlyEntries()
+        {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.BatchApexRunner.remoteRunMonthlySweeper}',
+                function(result, event)
+                {
+                    console.log(result);
+                },
+                {escape: true}
+            );
+        }
+        
+        function scheduleDailySweepers()
+        {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.BatchApexRunner.remoteScheduleDailySweepers}',
+                function(result, event)
+                {
+                    console.log(result);
+                },
+                {escape: true}
+            );
+        }
+        
+        function buildTree() {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.BatchApexRunner.remoteRunTreeBuilder}',
+                function(result, event)
+                {
+                    console.log(result);
+                    console.log(event);
+                }
+            );
+        }
+        
+        function buildScreenTree() {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.BatchApexRunner.remoteRunScreenTreeBuilder}',
+                function(result, event)
+                {
+                    console.log(result);
+                },
+                {escape: true}
+            );
+        }
+        
+        function deleteTree()
+        {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.BatchApexRunner.remoteDeleteTree}',
+                function(result, event)
+                {
+                    console.log(result);
+                },
+                {escape: true}
+            );
+        }
+        
+		function remoteSetNodeTypeToFunnel()
+        {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.BatchApexRunner.remoteSetNodeTypeToFunnel}',
+                function(result, event)
+                {
+                    console.log(result);
+                },
+                {escape: true}
+            );
+        }
+		
+		function remoteSetNodeTypeToScreen()
+        {
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.BatchApexRunner.remoteSetNodeTypeToScreen}',
+                function(result, event)
+                {
+                    console.log(result);
+                },
+                {escape: true}
+            );
+        }
+    </script>
+    
+    <font size="8pt"><a href="#" onClick="deleteLineEntries(); return false">Delete Line Data</a></font><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <font size="18pt"><a href="#" onClick="remoteRunDailyBarSweeper(); return false">Sweep Bar Data</a><br /><br /></font><br /><br /><br /><br /><br /><br />
+    <font size="8pt"><a href="#" onClick="deleteBarEntries(); return false">Delete Bar Data</a></font><br /><br /><br /><br /><br /><br /><br /><br />
+    <font size="8pt"><a href="#" onClick="sweepMonthlyEntries(); return false">Sweep Monthly Data</a></font><br /><br /><br /><br /><br /><br /><br /><br />
+    <font size="8pt"><a href="#" onClick="buildTree(); return false">Build Funnel Tree</a></font><br /><br /><br /><br /><br /><br /><br /><br />
+    <font size="8pt"><a href="#" onClick="buildScreenTree(); return false">Build Screen Tree</a></font><br /><br /><br /><br /><br /><br /><br /><br />
+    <font size="8pt"><a href="#" onClick="deleteTree(); return false">Delete Tree</a></font><br /><br /><br /><br /><br /><br /><br /><br />
+    <font size="8pt"><a href="#" onClick="remoteSetNodeTypeToFunnel(); return false">Set NodeType to Funnel</a></font><br /><br /><br /><br /><br /><br /><br /><br />
+    <font size="8pt"><a href="#" onClick="remoteSetNodeTypeToScreen(); return false">Set NodeType to Screen</a></font><br /><br /><br /><br /><br /><br /><br /><br />
+    <font size="8pt"><a href="#" onClick="scheduleDailySweepers(); return false">Schedule Daily Sweepers (DO NOT PRESS THIS BUTTON)</a></font><br /><br /><br /><br /><br /><br /><br /><br />
+    
+</apex:page>

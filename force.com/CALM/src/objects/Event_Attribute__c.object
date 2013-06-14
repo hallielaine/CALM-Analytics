@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <fields>
+        <fullName>al__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Action</label>
+        <referenceTo>Action__c</referenceTo>
+        <relationshipLabel>Event Attributes (Action)</relationshipLabel>
+        <relationshipName>Event_Attributes1</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>k__c</fullName>
+        <description>The key for this attribute.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The key for this attribute.</inlineHelpText>
+        <label>Key</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>u__c</fullName>
+        <description>The ID of the Action that this attribute corresponds to.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The ID of the Action that this attribute corresponds to.</inlineHelpText>
+        <label>Action ID</label>
+        <length>36</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>v__c</fullName>
+        <description>The value for this attribute.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The value for this attribute.</inlineHelpText>
+        <label>Value</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Event Attribute</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>DetailedAttributes</fullName>
+        <columns>u__c</columns>
+        <columns>k__c</columns>
+        <columns>v__c</columns>
+        <columns>al__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>Detailed Attributes</label>
+    </listViews>
+    <nameField>
+        <label>Event Attribute Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Event Attributes</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
+</CustomObject>

@@ -1,0 +1,147 @@
+@RestResource(urlMapping='/RunBatch/*')
+global with sharing class BatchApexRunner
+{     
+    @RemoteAction
+    global static String remoteRunDailyBarSweeper()
+    {
+        return runBatchDailyBarSweeper();
+    }
+    
+    @RemoteAction
+    global static String remoteDeleteBarEntries()
+    {
+        return deleteBarEntries();
+    }
+    
+    @RemoteAction
+    global static String remoteRunDailyLineSweeper()
+    {
+        return runBatchDailyLineSweeper();
+    }
+    
+    @RemoteAction
+    global static String remoteDeleteLineEntries()
+    {
+        return deleteLineEntries();
+    }
+    
+    @RemoteAction
+    global static String remoteRunMonthlySweeper()
+    {
+        return runBatchMonthlySweeper();
+    }
+    
+    @RemoteAction
+    global static String remoteScheduleDailySweepers()
+    {
+        return scheduleDailySweepers();
+    }
+        
+    @RemoteAction
+    global static String remoteRunTreeBuilder()
+    {
+        return runTreeBuilder();
+    }
+<<<<<<< HEAD
+    
+    @RemoteAction
+    global static String remoteDeleteTree()
+    {
+        return deleteTree();
+    }
+=======
+>>>>>>> ed0c04a09ef1790436b6d66ac1b2c10c22d21a5f
+        
+    /**
+     * Helper method for the post method. This method can be tested.
+     */
+    public static String runBatchDailyBarSweeper()
+    {  
+        BarGraphSweeper sweep = new BarGraphSweeper();
+        ID abatchprocessid = Database.executeBatch(sweep, 1);
+        return abatchprocessid;
+    }
+    
+    public static String scheduleDailySweepers()
+    {
+    	String sch = '0 30 0 * * ?';
+		system.schedule('Daily Sweeper', sch, new LineGraphSweeper());
+		return 'Scheduled.';
+    }
+    
+    public static String deleteBarEntries()
+    {
+        delete [select id from cp_calm__BG_Summary__c] ;
+        
+        delete [select id from cp_calm__BG_App_Version_Sessions__c] ;
+        
+        delete [select id from cp_calm__BG_App_Version_Users__c] ;
+        
+        delete [select id from cp_calm__BG_Country_Sessions__c] ;
+        
+        delete [select id from cp_calm__BG_Country_Users__c] ;
+        
+        delete [select id from cp_calm__BG_Network_Carrier_Sessions__c] ;
+        
+        delete [select id from cp_calm__BG_Network_Carrier_Users__c] ;
+        
+        delete [select id from cp_calm__BG_Session_Length__c] ;
+        
+        delete [select id from cp_calm__BG_Events__c] ;
+        
+        return 'Done';
+    }
+    
+    public static String runBatchDailyLineSweeper()
+    {  
+        LineGraphSweeper sweep = new LineGraphSweeper();
+        ID abatchprocessid = Database.executeBatch(sweep);
+        return abatchprocessid;
+    }
+    
+    public static String deleteLineEntries()
+    {
+        delete [select id from cp_calm__LG_Summary__c] ;
+        
+        delete [select id from cp_calm__LG_New_Sessions__c] ;
+        
+        delete [select id from cp_calm__LG_New_Users__c] ;
+        
+        delete [select id from cp_calm__LG_Returning_Sessions__c] ;
+        
+        delete [select id from cp_calm__LG_Returning_Users__c] ;
+        
+        delete [select id from cp_calm__LG_Sessions__c] ;
+        
+        delete [select id from cp_calm__LG_Users__c] ;
+        
+        return 'Done';
+    }
+        
+    /**
+     * Helper method for the post method. This method can be tested.
+     */
+    public static String runBatchMonthlySweeper()
+    {  
+        MonthlySweeper sweep = new MonthlySweeper();
+        ID abatchprocessid = Database.executeBatch(sweep);
+        return abatchprocessid;
+    }
+    
+    public static String runTreeBuilder() {
+    	BatchTreeBuilder builder = new BatchTreeBuilder();
+<<<<<<< HEAD
+    	ID abatchprocessid = Database.executeBatch(builder, 1);
+    	return abatchprocessid;
+    }
+    
+    public static String deleteTree() {
+    	delete [select id from cp_calm__ActionNode__c];
+    	return 'Done';
+    }
+=======
+    	ID abatchprocessid = Database.executeBatch(builder);
+    	return abatchprocessid;
+    }
+>>>>>>> ed0c04a09ef1790436b6d66ac1b2c10c22d21a5f
+}

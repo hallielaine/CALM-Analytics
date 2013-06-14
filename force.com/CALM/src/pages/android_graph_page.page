@@ -1,0 +1,172 @@
+<apex:page showHeader="false" docType="html-5.0" standardStylesheets="false">
+    <apex:stylesheet value="{!$Resource.dashboardCSS}" />
+    <apex:stylesheet value="{!$Resource.dashboardMobileCSS}" />
+    <apex:stylesheet value="{!$Resource.jQueryMobileCSS}" />
+    <apex:stylesheet value="{!$Resource.jQueryMobileDialogCSS}" />
+    <apex:stylesheet value="{!$Resource.jQueryMobileDateboxCSS}" />
+    <apex:stylesheet value="{!$Resource.iscrollCSS}" />
+    <apex:includeScript value="{!$Resource.jQuery}"/>
+    <apex:includeScript value="{!$Resource.jQueryUI}"/>
+    <apex:includeScript value="{!$Resource.jQuerybbqJS}"/>
+    <apex:includeScript value="{!$Resource.jQueryMobileJS}"/>
+    <apex:includeScript value="{!$Resource.jQueryMobileDialogJS}"/>
+    <apex:includeScript value="{!$Resource.dashboardMobileJS}"/>
+    <apex:includeScript value="{!$Resource.dateParseJS}"/>
+    <apex:includeScript value="{!$Resource.jQueryMobileDateboxCoreJS}" />
+    <apex:includeScript value="{!$Resource.jQueryMobileDateboxJS}" />
+    <apex:includeScript value="{!$Resource.iscrollJS}" />
+    <apex:includeScript value="{!$Resource.cookieJS}"/>
+    <meta name="format-detection" content="telephone=no" />
+
+    <body>
+        <div id="android_graph_page" data-role="page" data-theme="a">
+            <div data-role="header" data-theme="d">
+            	<button onClick="back_button_pressed();" data-icon="arrow-l">Back</button>
+                <div data-role="controlgroup" data-type="horizontal" id="daterange" class="ui-btn-right">
+                    <a href="#" id="Start" data-role="button" onClick="setStartDate();">Start: yyyy-mm-dd</a>
+                    <a href="#" id="End" data-role="button" onClick="setEndDate();">End: yyyy-mm-dd</a>
+                </div>
+                <span class="ui-title" />
+            </div>
+            <div id="content" data-role="content" data-theme="a" class="fit-content iscroll-wrapper">
+                    <div id="messages"></div>
+                    <div class="loading">Loading</div>
+                    <div id="chart"></div>
+            </div>
+            <div id="dateInput">
+                <input name="dtStart" id="dtStart" type="date" data-role="datebox"  data-options='{"mode": "calbox", "hideInput": true, "beforeToday": true, "notToday": true, "centerHoriz": true, "closeCallback": "validateDates();"}' />
+                <input name="dtEnd" id="dtEnd" type="date" data-role="datebox" data-options='{"mode": "calbox", "hideInput": true, "beforeToday": true, "notToday": true, "centerHoriz": true, "closeCallback": "validateDates();"}' />                     
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            var start = $('#dtStart');
+            var end = $('#dtEnd');
+            var deparam = $.deparam;
+            var myScroll;
+            
+            function scroll() {
+            	myScroll = new iScroll('content');
+            }
+            
+            document.addEventListener('DOMContentLoaded', scroll, false);
+            
+            function loaded()
+            {
+                loadChart();
+            }
+            
+            function loadChart(url, date)
+            {
+            	document.getElementById("chart").innerHTML = "";
+            	$('.loading').fadeIn();
+                $(document).ready(function()
+                {
+                    var src = $.deparam.querystring().graph;
+                    if (typeof(url) !== 'undefined')
+                    {
+                        src = url;
+                    }
+                    
+                    url = addDateParams(src);
+                    $('#chart').data('url', url);
+                    $('#chart').load(url, function() {
+                        // Save the URL currently loaded into the div
+                        $('#chart').data('url', url);
+                    });
+                });
+            }
+            
+            function reloadChart() {
+                loadChart($('#chart').data('url'), 'true');
+            }
+            
+            function setStartDate()
+            {
+                start.datebox('open');
+            }
+            
+            function setEndDate()
+            {
+                end.datebox('open');
+            }
+            
+            function addDateParams(url)
+            {
+                // Check for event specific graph
+                var event = $.deparam.querystring(url).event;
+                                
+                var params = url.indexOf('?');
+                if (params > 0)
+                    url = url.substring(0, params);
+                var startdate = $('#dtStart').val();
+                var enddate = $('#dtEnd').val();
+                var src = url + '?';
+                
+                // Add an existing event ID to graph
+                if (event)
+                   src = src + $.param({event: event}) + '&';
+                
+                // Add start date
+                src = src + $.param({start: startdate}) +
+                                '&' + $.param({end: enddate});
+
+                return src;
+            }
+            
+            function validateDates()
+            {
+                var startdate = $('#dtStart').val();
+                var enddate = $('#dtEnd').val();
+                
+                if (canDisplay(startdate))
+                {
+                    $('#Start span').text("Start: " + startdate);
+                }
+                if (canDisplay(enddate))
+                {
+                    $('#End span').text("End: " + enddate);
+                }
+                
+                if (startdate != null && enddate != null)
+                {
+                   if (shouldParse(startdate, enddate))
+                   {
+                       
+                       if (validDates(startdate, enddate))
+                       {
+                            $('#messages').hide();
+                            $('#androidframe').show();
+                           reloadChart();
+                       }
+                       else
+                       {
+                            sendUserMessage("Please provide a valid date range.");
+                       }
+                   }
+                }
+            }
+            
+            $(document).delegate('#android_graph_page', 'pageshow', function () {
+            	var the_height = ($(window).height() - $(this).find('[data-role="header"]').height());
+			    $(this).height($(window).height()).find('[data-role="content"]').height(the_height);
+			});
+			
+			function back_button_pressed() {
+				var url = deparam.querystring().parent;
+				if (typeof(url) == 'undefined')
+				{
+					url = "android_homepage";
+				}
+				console.log(url);
+				window.location.href = url;
+			}
+			
+			window.onorientationchange = function(){
+				 location.reload();
+			};
+
+            window.onload = loaded;
+        </script>
+    </body>
+</apex:page>

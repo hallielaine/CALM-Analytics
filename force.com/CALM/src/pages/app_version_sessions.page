@@ -1,0 +1,96 @@
+<apex:page controller="SessionsPerAppVersionWebservice" showHeader="false" docType="html-5.0" standardStylesheets="false">
+    <apex:stylesheet value="{!$Resource.dashboardCSS}" />
+    <apex:includeScript value="{!$Resource.jQuery}"/>
+    <apex:includeScript value="{!$Resource.graphPageJS}"/>
+    <apex:includeScript value="{!$Resource.dateParseJS}"/>
+    <apex:includeScript value="{!$Resource.highchartsJS}"/>
+    <apex:includeScript value="{!$Resource.highchartsExportJS}"/>
+    <apex:includeScript value="{!$Resource.momentJS}"/>
+    <apex:includeScript value="{!$Resource.jQuerybbqJS}"/>
+    <apex:includeScript value="{!$Resource.barchartJS}"/>
+    
+    <div class="chart_container" id="container">
+        <canvas id="chartCanvas">
+            Sorry, Your web-browser does not support the HTML 5 canvas element.
+        </canvas>
+    </div>
+    
+    <script>   
+        $(document).ready(function() { 
+            if (!isAndroid()) {
+                document.getElementById("container").className = "web_chart_container";
+            }
+           
+            var labels = new Array(); // x-axis
+            var values = new Array(); // y-axis
+            
+            var url = top.$('#chart').data('url');
+                
+            var dates = parseDates($.deparam.querystring(url).start, $.deparam.querystring(url).end);
+            if (dates.length != 0)
+            {
+                getSessionsPerAppVersion(dates[0].toUTCString(), dates[1].toUTCString(), getCookie('app_id'));
+            }
+            else
+            {
+                getSessionsPerAppVersion((new Date(0)).toUTCString(), (new Date()).toUTCString(), getCookie('app_id'));
+            }
+        
+            function getSessionsPerAppVersion(start, end, appKey)
+            {
+                Visualforce.remoting.Manager.invokeAction(
+                    '{!$RemoteAction.SessionsPerAppVersionWebservice.remoteGetAppVersionDetail}',
+                    start, end, appKey,
+                    function(result, event)
+                    {
+                    	$('.loading').fadeOut(function() {
+	                        if (result == null || result === undefined || result.length == 0)
+	                        {
+	                            sendNoDataMessage();
+	                        }
+	                        else {
+	                            // if the remote action call was sucessful
+	                            if (event.status)
+	                            {
+	                               var otherCount = new Object();
+	                               otherCount.av = "Other App Versions";
+	                               otherCount.s = 0;
+	                               var numOthers = 0;
+	                               
+	                               $.each(result, function(index, elem)
+	                               {
+	                                     if (index < 7) {
+	                                         labels.push(elem.av); // x-axis
+	                                         values.push(elem.s); // y-axis
+	                                     }
+	                                     else {
+	                                         otherCount.s += elem.s;
+	                                         numOthers++;
+	                                     }
+	                               });
+	                               
+	                               if (numOthers > 0) {
+	                                   labels.push(otherCount.av + ' (' + numOthers +')');
+	                                   values.push(otherCount.s);
+	                               }
+	                               
+	                               drawBarGraph("Sessions Per Application Version", "", labels, values);
+	                            }
+	                            else if (event.type === 'exception')
+	                            {
+	                                console.log('exception');
+	                            }
+	                            else
+	                            {
+	                                console.log('error');
+	                            }
+	                        }
+	            		});
+                	},
+                {escape: true}
+            );
+        }
+
+    });
+    </script>
+</apex:page>

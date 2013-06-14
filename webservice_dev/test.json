@@ -1,0 +1,12 @@
+{
+    "input" : [
+        {
+            "string1" : "value for string1",
+                "string2" : "value for string2",
+                "privateString" : "value for privateString"
+        },
+        {
+            "string1" : "You don't see me"
+        }
+    ]
+}

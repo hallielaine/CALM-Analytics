@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>InDevelopment</deploymentStatus>
+    <description>Daybreak information for sweeped data</description>
+    <enableActivities>false</enableActivities>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <fields>
+        <fullName>dbt__c</fullName>
+        <description>The type of daybreak (u for users or s for sessions)</description>
+        <externalId>false</externalId>
+        <label>Daybreak Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>u</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>s</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>hour0__c</fullName>
+        <description>Count of users or sessions for the given hour</description>
+        <externalId>false</externalId>
+        <label>12 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour10__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>10 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour11__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>11 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour12__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>12 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour13__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>1 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour14__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>2 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour15__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>3 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour16__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>4 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour17__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>5 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour18__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>6 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour19__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>7 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour1__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>1 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour20__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>8 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour21__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>9 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour22__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>10 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour23__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>11 PM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour2__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>2 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour3__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>3 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour4__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>4 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour5__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>5 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour6__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>6 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour7__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>7 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour8__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>8 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>hour9__c</fullName>
+        <description>Count of the users or sessions for the given hour.</description>
+        <externalId>false</externalId>
+        <label>9 AM</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>swp__c</fullName>
+        <description>The Sweeper object which this daybreak is associated with</description>
+        <externalId>false</externalId>
+        <label>Sweeper</label>
+        <referenceTo>Sweeper__c</referenceTo>
+        <relationshipName>dbs</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <label>Swept Daybreak</label>
+    <nameField>
+        <label>SweepedDaybreak Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Swept Daybreaks</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

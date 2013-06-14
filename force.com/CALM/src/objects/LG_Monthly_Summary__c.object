@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Monthly summary for all line graphs</description>
+    <enableActivities>false</enableActivities>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <fields>
+        <fullName>Month__c</fullName>
+        <defaultValue>DATE(YEAR(TODAY()), MONTH(TODAY()), 1)</defaultValue>
+        <description>The first day of the month that this record is for.</description>
+        <externalId>false</externalId>
+        <label>Month</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>New_Sessions__c</fullName>
+        <defaultValue>-1</defaultValue>
+        <description>Total number of new sessions this month</description>
+        <externalId>false</externalId>
+        <label>New Sessions</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>New_Users__c</fullName>
+        <defaultValue>-1</defaultValue>
+        <description>Number of new users this month.</description>
+        <externalId>false</externalId>
+        <label>New Users</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Returning_Sessions__c</fullName>
+        <defaultValue>-1</defaultValue>
+        <description>Number of returning sessions this month.</description>
+        <externalId>false</externalId>
+        <label>Returning Sessions</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Returning_Users__c</fullName>
+        <defaultValue>-1</defaultValue>
+        <description>Number of returning users this month.</description>
+        <externalId>false</externalId>
+        <label>Returning Users</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sessions__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(AND(New_Sessions__c  = -1, Returning_Sessions__c = -1), -1, IF(New_Sessions__c  = -1, 0, New_Sessions__c) + IF(Returning_Sessions__c = -1, 0, Returning_Sessions__c))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Sessions</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Users__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(AND(New_Users__c = -1, Returning_Users__c = -1), -1, IF(New_Users__c = -1, 0, New_Users__c) + IF(Returning_Users__c = -1, 0, Returning_Users__c))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Users</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>au__c</fullName>
+        <externalId>false</externalId>
+        <label>Application Key</label>
+        <length>64</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>LG Monthly Summary</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>LG Monthly Summary Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>LG Monthly Summaries</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

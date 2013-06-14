@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>InDevelopment</deploymentStatus>
+    <description>Summary data of the Actions for a given Sweeper object.</description>
+    <enableActivities>false</enableActivities>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <fields>
+        <fullName>cnt__c</fullName>
+        <description>Number of occurrences of the Action</description>
+        <externalId>false</externalId>
+        <label>Count</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>dt__c</fullName>
+        <description>Datatype of the Action (e for Event or s for Screen)</description>
+        <externalId>false</externalId>
+        <label>Action Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>e</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>s</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>n__c</fullName>
+        <description>Name of the Action</description>
+        <externalId>false</externalId>
+        <label>Name</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>swp__c</fullName>
+        <description>The Sweeper that this SweepedAction is associated with</description>
+        <externalId>false</externalId>
+        <label>Sweeper</label>
+        <referenceTo>Sweeper__c</referenceTo>
+        <relationshipName>act</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <label>Swept Action</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>n__c</columns>
+        <columns>cnt__c</columns>
+        <columns>swp__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>SweptAction Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Swept Actions</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+</CustomObject>

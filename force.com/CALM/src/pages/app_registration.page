@@ -1,0 +1,221 @@
+<apex:page controller="ApplicationRegistrationWebservice" showHeader="false"
+    docType="html-5.0" standardStylesheets="false">
+    <apex:stylesheet value="{!$Resource.bootstrapResponsiveCSS}" />
+    <apex:stylesheet value="{!$Resource.bootstrapCSS}" />
+    <apex:stylesheet value="{!$Resource.dashboardCSS}" />
+    <apex:includeScript value="{!$Resource.jQuery}" />
+    <apex:includeScript value="{!$Resource.bootstrapJS}" />
+
+    <div class="chart_container" id="container">
+    <!-- Button to trigger modal -->
+ 
+		<!-- Modal -->
+		<div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
+		  <div class="modal-header">
+		    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+		    <h3 id="editModalLabel">Edit </h3>
+		  </div>
+		  <div class="modal-body">
+		    <p>Screens and Funnels are premium features that require extra data storage in your organization.
+		       The deeper you allow these to be, the more data they will use.<br />
+		       A depth of 3 or 4 is recommended.<br /><br />
+		       
+		       <form class="form-horizontal">
+				  <div class="control-group">
+				    <label class="control-label" for="modal-input-screen">Screens Depth</label>
+				    <div class="controls">
+				    	<input id="modal-input-screen" maxlength="1" min="0" max="9" type="number"></input>
+				    </div>
+				  </div>
+				  <div class="control-group">
+				    <label class="control-label" for="modal-input-funnel">Funnels Depth</label>
+				    <div class="controls">
+				    	<input id="modal-input-funnel" maxlength="1" min="0" max="9" type="number"></input>
+				    </div>
+				  </div>
+		       </form>
+		       
+		       <br/ ><span class="note">Note: You can always <b>decrease</b> the depth of Screens or Funnels to reduce data usage.
+		       However, <b>increasing</b> the depth later will require all past Screens or Funnels data to be removed and collection will start anew.</span>
+		    </p>
+		  </div>
+		  <div class="modal-footer">
+		    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		    <button id="modal-save" class="btn btn-primary" type="button" data-loading-text="Saving...">Save</button>
+		  </div>
+		</div>
+		
+        <div class="container" style="display:none">
+            <div class="row">
+                <div class="span8 offset2">
+                    <div class="page-header">
+                        <h3>Applications</h3>
+                    </div>
+                    <form>
+                    	<input type="text" class="app-name" placeholder="New App Name"></input>
+                    	<button type="submit" class="btn btn-primary" onClick="addApp(); return false">Submit</button><br />
+                    </form>
+                    <span class='input-error'>Please enter a unique name</span>
+                    <hr class="soften" />
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Application Name</th>
+                                <th>Application ID</th>
+                                <th>Screen Depth</th>
+                                <th>Funnel Depth</th>
+                                <th>&nbsp;</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       $(document).ready(function() {
+           Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.ApplicationRegistrationWebservice.remoteGetApps}',
+                    function(result, event)
+                    {
+                        $('.loading').fadeOut(function() {
+                            $('.container').fadeIn(function() {
+	                            if (event.status && result.length > 0) {
+	                                $(result).each(function(index, elem) {
+	                                    addRowToTable(elem.Name, elem.Id, elem.cp_calm__sl__c, elem.cp_calm__fl__c);
+	                                });
+	                            }
+                            });
+                        }); 
+                    },
+                    {escape: true}
+               );
+       });
+    
+        function addApp() {
+           var appName = $('input.app-name').val().trim();
+           
+           if ($('.table .app-name').filter(function() {return $(this).text() === appName;}).length > 0 
+               || appName === undefined || appName == null || appName == '') {
+              $('.input-error').fadeIn();
+           }
+           else {
+              $('.input-error').hide();
+              $('input.app-name').val('').focus();
+              addRowToTable(appName, 'Loading...', 0, 0);
+              
+               // save new app name and generate ID
+               Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.ApplicationRegistrationWebservice.remoteAddApp}', appName,
+                    function(result, event)
+                    {
+                        if (event.status && result !== undefined && result !== null && result.trim() !== '') {
+                            $('.table tbody tr:last td.app-id-cell .app-id').text(result);
+                            $('.table tbody tr:last td.delete a').off('click').click(function() {
+                                deleteApp(appName, result);
+                                return false;
+                            });
+                        }
+                        else {
+                            $('.table tbody tr:last td.app-id').text('<span class="save-error">Error saving app</span>');
+                        }
+                    },
+                    {escape: true}
+               );
+           }
+        }
+        
+        function deleteApp(appName, appId) {
+        	var row = $('.table tbody tr td.app-id-cell .app-id:contains('+appId+')').parents('tr');
+            row.addClass('error');
+			var id = prompt("Warning! Deleting an application will remove all data associated with it. This is completely unrecoverable.\n\nPlease confirm the Application ID you wish to delete:");
+			
+			if (id == appId) {
+			   row.remove();
+			   // delete the given app
+               Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.ApplicationRegistrationWebservice.remoteDeleteApp}', appName, appId,
+                    function(result, event)
+                    {
+                        // do nothing
+                    },
+                    {escape: true}
+               );
+			}
+			else {
+			    alert('Application ID did not match. Nothing was deleted.');
+			    row.removeClass('error');
+			}
+        }
+        
+        function addRowToTable(appName, id, screenDepth, funnelDepth) {
+            var row = $('<tr>');
+            var appNameCell = $('<td>').addClass('app-name').text(appName);
+            var appIdCell = $('<td>').addClass('app-id-cell').append($('<span>').addClass('app-id').text(id));
+            
+            var deleteAppCell = $('<td>').addClass('delete').append($('<a>').attr('href', '#').click(function() {
+                deleteApp(appName, id); return false;
+            }).addClass('btn btn-danger btn-mini').text('Delete'));
+            
+			var screenCell = $('<td>').addClass('screen-cell').text(screenDepth);
+			var funnelCell = $('<td>').addClass('funnel-cell').text(funnelDepth);
+            
+            var editCell = $('<td>').addClass('edit-cell').append($('<a>').attr('href', '#').click(function() {
+            	editApp(id, appName, screenDepth, funnelDepth); return false;
+            }).addClass('btn btn-primary btn-mini').text('Edit'));
+            
+            row.append(appNameCell).append(appIdCell).append(screenCell).append(funnelCell).append(editCell).append(deleteAppCell);
+
+            $('.table tbody').append(row);
+        }
+        
+        function getFunnelOrScreenButtonText(depth) {
+	       	if (depth > 0) {
+	       		return 'Edit';
+	       	}
+	       	return 'Enable';
+        }
+        
+        function getFunnelOrScreenCellText(depth) {
+        	if (depth > 0) {
+        		return $('<span>').addClass('funnel-screen-depth').text(depth);
+        	}
+        	return '';
+        }
+        
+        $('#editModal').on('shown', function () {
+			$('#modal-input-screen').focus();
+		})
+        
+        function editApp(id, appName, screenDepth, funnelDepth) {
+        	$('#editModalLabel').text('Edit ' + appName);
+        	$('#modal-input-screen').val(screenDepth).focus();
+        	$('#modal-input-funnel').val(funnelDepth);
+        	$('#modal-save').off('click').click(function(){saveEditedApp(id, appName)});
+        	$('#editModal').modal('show');
+        }
+        
+        function saveEditedApp(id, appName) {
+       	    var screenDepth = $("#modal-input-screen").val();
+       	    var funnelDepth = $("#modal-input-funnel").val();
+       	    
+       	    $('#modal-save').button('loading');
+       	    
+       	    Visualforce.remoting.Manager.invokeAction(
+               '{!$RemoteAction.ApplicationRegistrationWebservice.remoteEditApp}', id, appName, screenDepth, funnelDepth,
+                   function(result, event)
+                   {
+                       $('#modal-save').button('reset')
+        			   $('.table tbody tr td.app-id-cell .app-id:contains('+id+')').parents('tr').children('.screen-cell').text(screenDepth);
+        			   $('.table tbody tr td.app-id-cell .app-id:contains('+id+')').parents('tr').children('.funnel-cell').text(funnelDepth);
+                   },
+                   {escape: true}
+              );
+        }
+        
+    </script>
+</apex:page>

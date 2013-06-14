@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Swept Action</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Swept Actions</value>
+    </caseValues>
+    <fields>
+        <label><!-- Count --></label>
+        <name>c</name>
+    </fields>
+    <fields>
+        <label><!-- Action Type --></label>
+        <name>dt__c</name>
+        <picklistValues>
+            <masterLabel>e</masterLabel>
+            <translation><!-- e --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>s</masterLabel>
+            <translation><!-- s --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Name --></label>
+        <name>n__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sweeper --></label>
+        <name>swp__c</name>
+        <relationshipLabel><!-- Swept Actions --></relationshipLabel>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,96 @@
+<apex:page controller="ApplicationRegistrationWebservice" showHeader="false"
+    docType="html-5.0" standardStylesheets="false">
+    <apex:stylesheet value="{!$Resource.bootstrapResponsiveCSS}" />
+    <apex:stylesheet value="{!$Resource.bootstrapCSS}" />
+    <apex:stylesheet value="{!$Resource.dashboardCSS}" />
+    <apex:includeScript value="{!$Resource.jQuery}" />
+<style>
+      .app {
+         height:145px;
+         width:200px;
+         overflow: hidden;
+         white-space:pre-line;
+      }
+      
+      .app:hover {
+         text-decoration:none;
+      }
+      .selected, .selected:hover {
+          background-color:#0088cc;
+          color:#fff;
+      }
+      
+      .app-name {
+         text-overflow: ellipsis;
+         overflow: hidden;
+      }
+      .container {
+         padding-top:20px;
+      }
+      .new-app {
+         display:none;
+      }
+   </style>
+   <body>
+   		<div class="chart-container">
+		   <div class="container">
+		   <div class="no-apps-message">You have no Apps. Use the link below to add some!</div>
+		      <div class="row">
+		         <ul class="thumbnails apps">
+		         </ul>
+		      </div>
+		      <div class="new-app">
+		      <hr class="soft" />
+		      <a href="#" onClick="loadChart('app_registration', false, false)">Manage Applications</a>
+		      </div>
+		   </div>
+		</div>
+   </body>
+   <script type="text/javascript">
+      $(document).ready(function() {
+         Visualforce.remoting.Manager.invokeAction(
+            '{!$RemoteAction.ApplicationRegistrationWebservice.remoteGetApps}',
+            function(result, event)
+            {
+            	  $('.loading').fadeOut(function() {
+	                  $('.new-app').fadeIn();
+	                  if (event.status && result.length > 0) {
+	                      $(result).each(function(index, elem) {
+	                         var span = $('<li class="span3">');
+	                         var thumbnail = $('<a>');
+	                         thumbnail.addClass('thumbnail app').attr('href', "#").on('click', function() {
+	                             appClick(elem, this); return false
+	                         }).attr('title', elem.Name);
+	                         var name = $('<h2>').addClass("app-name").text(elem.Name);
+	                         span.append(thumbnail.append(name));
+	                         $('ul.apps').append(span);
+	                         
+	                         // if there isn't a cookie for the selected app, select the first app
+	                         if (getCookie('app_id') == null || getCookie('app_id') === undefined) {
+	                             if (index == 0) {
+	                                 appClick(elem, thumbnail);
+	                             }
+	                         }
+	                         // select the app based on the cookie
+	                         else if (getCookie('app_id') == elem.Id) {
+	                             appClick(elem, thumbnail);
+	                         }
+	                      });
+	                    }
+	                    else {
+	                        $('.no-apps-message').fadeIn();
+	                    }
+	              });
+            },
+            {escape: true}
+         );
+      });
+      
+      // handle a click on an app thumbnail. 
+      function appClick(app, htmlElem) {
+          setCookie('app_id', app.Id, 7);
+          $('.app').removeClass('selected');
+          $(htmlElem).addClass('selected');
+      }
+   </script>
+</apex:page>

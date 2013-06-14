@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <fields>
+        <fullName>ct__c</fullName>
+        <description>The time at which the event occurred</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The time at which the event occurred</inlineHelpText>
+        <label>Time</label>
+        <required>true</required>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>dt__c</fullName>
+        <description>Describes the type of action. &apos;e&apos; for an event, and &apos;s&apos; for a screen.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Describes the type of action. &apos;e&apos; for an event, and &apos;s&apos; for a screen.</inlineHelpText>
+        <label>Action Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>e</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>s</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>n__c</fullName>
+        <description>Name of the event</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Name of the event</inlineHelpText>
+        <label>Name</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>sl__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Session</label>
+        <referenceTo>Session__c</referenceTo>
+        <relationshipLabel>Actions</relationshipLabel>
+        <relationshipName>Actions</relationshipName>
+        <required>false</required>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>su__c</fullName>
+        <description>The ID of the Session in which this event occurred</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The ID of the Session in which this event occurred</inlineHelpText>
+        <label>Session ID</label>
+        <length>36</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>u__c</fullName>
+        <caseSensitive>true</caseSensitive>
+        <description>A unique ID for an action</description>
+        <externalId>true</externalId>
+        <inlineHelpText>A unique ID for an action</inlineHelpText>
+        <label>Action ID</label>
+        <length>36</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <label>Action</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>DetailedActions</fullName>
+        <columns>u__c</columns>
+        <columns>su__c</columns>
+        <columns>dt__c</columns>
+        <columns>n__c</columns>
+        <columns>ct__c</columns>
+        <columns>sl__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>Detailed Actions</label>
+    </listViews>
+    <nameField>
+        <label>Action Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Actions</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
+</CustomObject>

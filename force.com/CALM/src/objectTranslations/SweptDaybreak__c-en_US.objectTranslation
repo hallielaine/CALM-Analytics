@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Swept Daybreak</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Swept Daybreaks</value>
+    </caseValues>
+    <fields>
+        <label><!-- Daybreak Type --></label>
+        <name>dbt__c</name>
+        <picklistValues>
+            <masterLabel>s</masterLabel>
+            <translation><!-- s --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>u</masterLabel>
+            <translation><!-- u --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- 12 AM --></label>
+        <name>hour0__c</name>
+    </fields>
+    <fields>
+        <label><!-- 10 AM --></label>
+        <name>hour10__c</name>
+    </fields>
+    <fields>
+        <label><!-- 11 AM --></label>
+        <name>hour11__c</name>
+    </fields>
+    <fields>
+        <label><!-- 12 PM --></label>
+        <name>hour12__c</name>
+    </fields>
+    <fields>
+        <label><!-- 1 PM --></label>
+        <name>hour13__c</name>
+    </fields>
+    <fields>
+        <label><!-- 2 PM --></label>
+        <name>hour14__c</name>
+    </fields>
+    <fields>
+        <label><!-- 3 PM --></label>
+        <name>hour15__c</name>
+    </fields>
+    <fields>
+        <label><!-- 4 PM --></label>
+        <name>hour16__c</name>
+    </fields>
+    <fields>
+        <label><!-- 5 PM --></label>
+        <name>hour17__c</name>
+    </fields>
+    <fields>
+        <label><!-- 6 PM --></label>
+        <name>hour18__c</name>
+    </fields>
+    <fields>
+        <label><!-- 7 PM --></label>
+        <name>hour19__c</name>
+    </fields>
+    <fields>
+        <label><!-- 1 AM --></label>
+        <name>hour1__c</name>
+    </fields>
+    <fields>
+        <label><!-- 8 PM --></label>
+        <name>hour20__c</name>
+    </fields>
+    <fields>
+        <label><!-- 9 PM --></label>
+        <name>hour21__c</name>
+    </fields>
+    <fields>
+        <label><!-- 10 PM --></label>
+        <name>hour22__c</name>
+    </fields>
+    <fields>
+        <label><!-- 11 PM --></label>
+        <name>hour23__c</name>
+    </fields>
+    <fields>
+        <label><!-- 2 AM --></label>
+        <name>hour2__c</name>
+    </fields>
+    <fields>
+        <label><!-- 3 AM --></label>
+        <name>hour3__c</name>
+    </fields>
+    <fields>
+        <label><!-- 4 AM --></label>
+        <name>hour4__c</name>
+    </fields>
+    <fields>
+        <label><!-- 5 AM --></label>
+        <name>hour5__c</name>
+    </fields>
+    <fields>
+        <label><!-- 6 AM --></label>
+        <name>hour6__c</name>
+    </fields>
+    <fields>
+        <label><!-- 7 AM --></label>
+        <name>hour7__c</name>
+    </fields>
+    <fields>
+        <label><!-- 8 AM --></label>
+        <name>hour8__c</name>
+    </fields>
+    <fields>
+        <label><!-- 9 AM --></label>
+        <name>hour9__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sweeper --></label>
+        <name>swp__c</name>
+        <relationshipLabel><!-- Swept Daybreaks --></relationshipLabel>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

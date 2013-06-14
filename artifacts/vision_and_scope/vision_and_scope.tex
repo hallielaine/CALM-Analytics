@@ -1,0 +1,258 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% CALM----READ ME!!!!!! %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% An example Vision and Scope Document is pn page 458 in SR - Halli
+
+\documentclass[12pt,oneside,letterpaper]{article}
+\usepackage{hyperref} % Hyperlinks the table of contents automagically %
+\begin{document}
+
+\title{\bfseries CALM: \\Vision and Scope}
+
+\author {
+\large{Code A La Mode}\\
+\emph{Computer Science Department}\\
+\emph{California Polytechnic State University}\\
+\emph{San Luis Obispo, CA USA}\\
+}
+
+\date{\today}
+\maketitle \thispagestyle{empty}
+
+\pagebreak
+\tableofcontents
+
+\addcontentsline{toc}{section}{Credits}
+
+\section*{Credits}
+\begin{tabular}{|l|l|p{2.5in}|l|}
+\hline
+\textbf{Name}&\textbf{Date}&\textbf{Role}&\textbf{Version}\\
+\hline
+Daniel Crawford&October 2, 2012&Document Owner, Lead Author of Competitive Analysis&1.0\\
+\hline
+Halli Meth&October 2, 2012&Lead Author of Vision of the Solution&1.0\\
+\hline
+Neil Greene&October 2, 2012&Lead Author of Business Context&1.0\\
+\hline
+Erik Sandberg&October 2, 2012&Lead Author of Scope and Limitations&1.0\\
+\hline
+Alejandro Cervantes& October 2, 2012& Lead Author of Business Requirements&1.0\\
+\hline
+\end{tabular}
+
+\addcontentsline{toc}{section}{Revision History}
+
+\section*{Revision History}
+\begin{tabular}{|l|l|p{2.5in}|l|}
+\hline
+\textbf{Name}&\textbf{Date}&\textbf{Reason for Changes}&\textbf{Version}\\
+\hline
+Halli Meth&October 2, 2012&Initial version of Section 2&1.0\\
+\hline
+Neil Greene&October 2, 2012&Initial version of Section 4&1.0\\
+\hline
+Erik Sandberg&October 2, 2012&Initial version of Section 3&1.0\\
+\hline
+Alejandro Cervantes&October 2, 2012&Initial version of Section 1&1.0\\
+\hline
+Daniel Crawford&October 4, 2012&Initial version of Section 5&1.0\\
+\hline
+\end{tabular}
+
+\newpage
+
+\section{Business Requirements}
+\subsection{Background}
+A large number of customers who use Salesforce's APIs to send user-metric-data to Salesforce's databases often encounter hardships when trying to setup such a system. The main issue is that the APIs for sending metric data to the databases are not very easy to use. There is a sizable learning curve to using the APIs and thus there is reduced interest in using them.
+
+\subsection{Business Opportunity}
+Developing a new API that removes the hardships encountered with Salesforce's current API will widen the market for customers who wish to gather and store user metrics through Salesforce. By making it easier to interface with the databases, more developers will be attracted to this aspect of Salesforce's business market. The new API will be developed with the mobile market in mind. Specifically, development will focus on the Android mobile platform. Salesforce has very few products that are deployed for the Android platform, thus this new API is a pioneering technology and business approach for Salesforce. By developing an API that is compatible with mobile devices, such as Android, Salesforce will attract an even larger number of customers to this mobile market.
+
+\subsection{Business Objectives and Success Criteria}
+
+\begin{tabular} {| p{1in} | p{4.5in} |}
+\hline
+\textbf{BO-1} & Develop a metric-gather API that is powerful, yet simple to use.\\
+
+\hline
+\textbf{BO-2} & Develop a mobile app that interfaces with the API as an example of how to use the API.\\*
+\hline
+\end{tabular}
+
+\vfill
+\noindent
+\begin{tabular} {| p{1in} | p{4.5in} |}
+\hline
+\textbf{SC-1} & Increase customer base who perform development work using Salesforce's APIs.\\
+
+\hline
+\textbf{SC-2} & Example app is received well and is used as a primary example for using Salesforce's API on Android.\\ % Shoot for the sky!
+
+\hline
+\textbf{SC-3} & Example app receives certification on the Salesforce App Exchange.\\
+\hline
+\end{tabular}
+
+\subsection{Customer or Market Needs}
+
+\begin{tabular} {| p{1in} | p{4.5in} |}
+\hline
+\textbf{CN-1} & The API is simple to use.\\
+
+\hline
+\textbf{CN-2} & The API is compatible with mobile technologies, such as Android.\\
+
+\hline
+\textbf{CN-3} & The API is generic.\\
+\hline
+\end{tabular}
+
+\subsection{Business Risks}
+No known business risks at present.
+
+\section{Vision of the Solution}
+\subsection{Vision Statement}
+The solution involves two main products: An API for developers and a Data Trend Application for marketers and management.\\\\
+For developers of Mobile Applications who need to track data about their users, our product is a Salesforce API that will provide them with a simple way to store known user data in a Salesforce Database. Unlike the Force.com API, our product will be simply focused on sending metric-related data and will enable even new Salesforce customers to benefit from application analytics.\\\\
+% TODO(Daniel): Find out what our view would do that the other products will not? This section's structure is taken from SR pg. 85-86.
+For managers, marketers, and sales representatives who need to view user data trends in order to make decisions, our product is a mobile web-app that will provide them a simple view of their user’s data in graphical form. 
+
+\subsection{Major Features}
+\begin{tabular} {| p{1in} | p{4.5in} |}
+\hline
+FE-1 & Developers will send data through the API using our predefined types \\
+\hline
+FE-2 & API will store user data sent by developers in a Salesforce Database \\
+\hline
+FE-3 & Data stored in Salesforce Database will be aggregated over all user data sent by developers \\
+\hline
+FE-4 & Data Trend Application will create predefined graphs based on data in FE-3 \\
+\hline
+FE-5 & Data Trend Application will allow users to log-in to their system \\
+\hline
+FE-6 & Data Trend Application will display graphs if the user is logged in \\
+\hline
+\end {tabular}
+
+\subsection{Assumptions and Dependencies}
+\begin{tabular} {| p{1in} | p{4.5in} |}
+\hline
+AS-1 & All users of the Data Trend Application will have a Salesforce account linked with the same Mobile Application used with the API \\
+\hline
+AS-2 & All users of the Data Trend Application will use our API \\
+\hline
+\end {tabular}
+
+\section{Scope and Limitations}
+\subsection{Scope of Initial and Subsequent Releases}
+\begin{tabular} {| p{1in} | p{2.2in} | p{2.2in} |}
+\hline
+\textbf{Feature} & \textbf{Release 1} & \textbf{Release 2} \\
+\hline
+FE-1 & Fully Implemented & \\ 
+\hline
+FE-2 & Fully Implemented & \\ 
+\hline
+FE-3 & Not Implemented & Fully Implemented \\ 
+\hline
+FE-4 & Not Implemented & Fully Implemented \\ 
+\hline
+FE-5 & Not Implemented & Fully Implemented \\ 
+\hline
+FE-6 & Not Implemented & Fully Implemented \\ 
+\hline
+\end {tabular}
+\subsection{Limitations and Exclusions}
+\begin{tabular} {| p{1in} | p{4.5in} |}
+\hline
+LI-1 & TBD\\
+\hline
+EX-1 & TBD\\
+\hline
+\end {tabular}
+
+\section{Business Context}
+\subsection{Stakeholder Profiles}
+\begin{tabular} {| p{1in} | p{1in} | p{1in} | p{1in} | p{1in} |}
+\hline
+\textbf{Stakeholder} & \textbf{Value} & \textbf{Attitudes} & \textbf{Interests} & \textbf{Constraints}\\
+\hline
+Force.com Developer &Ease of use &excited& API usability& none \\ 
+\hline
+Marketer &Insight into efficacy of mobile app&excited&Mobile capabilities & none \\ 
+\hline
+Manager &Viewing status of product&excited&Mobile capabilities & none \\ 
+\hline
+\end {tabular}
+
+\subsection{Project Priorities}
+\begin{tabular} {| p{1in} | p{1.5in} | p{1.5in} | p{1.6in} |}
+\hline
+\textbf{Dimension} & \textbf{Driver} & \textbf{Constraint} & \textbf{Degree of Freedom} \\
+\hline
+\em Schedule\em &We must release our first iteration by the end of quarter 2 and have the final release by the end of quarter 3&& \\ 
+\hline
+\em Features \em &&& Creating an API and demo application of said API \\ 
+\hline
+\em Quality \em &&& No formal measure of quality has been set \\ 
+\hline
+\em Staff \em &&Project team is composed of 5 student developers and 1 Salesforce.com representative & \\ 
+\hline
+\em Cost \em &&Each student developer must spend 8-12 hours a week with very little variation & \\ 
+\hline
+\end {tabular}
+\subsection{Operating Environment}
+\begin{tabular} {| p{1in} | p{4.5in} |}
+\hline
+OE-1 &  The API shall work on the Force.com development platform\\
+\hline
+OE-2 &  The API shall be compatible with mobile applications \\
+\hline
+OE-3 &  The Data Trend Application will be mobile web-based app \\
+\hline
+OE-4 &  The data will be stored in a Salesforce Database \\
+\hline
+\end {tabular}
+
+\section{Competitive Analysis}
+\subsection{Overview}
+The mobile analytics market has been rapidly growing in recent years. Many companies offer solutions to collect, store, and analyze user data from mobile applications. These offerings can be viewed as direct competition with the proposed Salesforce product. But they can also serve as inspiration, and there is a potential for integration with some of these services. This section will focus on some existing solutions, their features, limitations, pricing, and potential to integrate with the proposed Salesforce project.
+\subsection{Competitor 1 - Flurry}
+\textbf{Mobile Platforms:} Android, iOS, Windows Phone, Blackberry\\
+\textbf{Dashboard:} Web version. Third party native iOS and Android apps.\\
+\textbf{Pricing:} Free\\
+\textbf{Ease of use:} Easy\\
+\\
+Flurry offers a closed source SDK for the mobile platforms listed above. They advertise that an app developer can integrate analytic gathering into their app in approximately 10 minutes, which seems to be an accurate estimate. This level of setup will record basic information such as session start time, session duration, location, demographics, etc. More advanced tracking can be added with additional work by the developer. For example, a developer can add a couple of lines of code to register any event they are interested in such as a button click, page view, etc.\\\\
+Flurry offers a web based dashboard to view and analyze gathered metrics. They have a series of default reports, as well as the ability to create custom reports. We do not have access to a dashboard, but we imagine that default reports include things like average session time, breakdown of user languages, location maps, and more. Custom reports can also be generated. For example, one could create a graph that shows time spent on a page after a certain button click by English speaking users.\\\\
+Flurry also offers an API to retrieve data from their servers, enabling the creation of custom dashboards. Third party native Android and iOS dashboards are available in the respective app stores\\\\
+It should be noted that there is a potential for integration with Flurry. We could have a script that, using their data retrieval API, essentially exports the data into a Salesforce database. There is a potential that such a strategy would be in violation of Flurry's license, and this should be looked into further if we choose to take this route. This strategy also seems to be without a real purpose, and Salesforce would not be adding any perceived value.\\\\
+Though there is a slight possibility of integration, Flurry should be considered a direct competitor.
+
+
+\subsection{Competitor 2 - Google Analytics}
+\textbf{Mobile Platforms:} Android, iOS\\
+\textbf{Dashboard:} Web version, native Android app. Third party dashboards for iOS.\\
+\textbf{Pricing:} Free\\
+\textbf{Ease of use:} Easy\\
+\\
+Google Analytics offers a closed source SDK for the mobile platforms listed above. It should be noted that Google Analytics for mobile apps is in a beta stage. Changes in the product could impact the competitive analysis as well as the potential for integration with the proposed Salesforce project. The SDK is very similar to the offering by Flurry (Competitor 1) described in the previous section. Basic integration requires about 10 minutes of developer time, and will record basic information such as session durations, locations, demographics, etc. Also similar to Flurry, the developer can specify specific events they wish to track, such as a button click or a page view. Overall the process for a developer to integrate Google Analytics into their app follows the same strategy as Flurry's offering. Further in depth analysis of the two SDKs will likely reveal nuances, but there seems to be an industry standard approach to metrics gathering.\\\\
+Google Analytics offers a web based dashboard to view and analyze metrics. Just like with Flurry, there are a series of default reports and the ability to create custom reports. Google Analytics also offers a native Android dashboard that is more simple in scope than the web version. It seems to exist for convenience purposes; all serious analysis will likely be done through the web version.\\\\
+Google Analytics offers the ability to access or export data from their servers. This enables the creation of custom dashboards. There are a few payed versions available on the iOS app store.\\\\
+Similar to Flurry, the potential for integration with Google Analytics lies in the accessibility of the data. App developers would use the SDK in their mobile apps to gather metrics. We could then offer them a script to export data to a Salesforce database, and offer a custom dashboard for them to view. This scenario seems to lack a real purpose, and would make the user have to deal with two services: Google Analytics and Salesforce. Following this integration strategy does not seem to offer any real advantage for the user.\\\\
+Google Analytics should be viewed as a direct competitor.
+
+
+\subsection{Competitor 3 - Localytics}
+\textbf{Mobile Platforms:} Android, iOS, Windows Phone, Blackberry, Windows 8, HTML5\\
+\textbf{Dashboard:} Web version\\
+\textbf{Pricing:} Free\\
+\textbf{Ease of use:} Easy\\
+\\
+Localytics offers an open source SDK for the platforms listed above. The SDK is very similar to the offerings by both Flurry (Competitor 1) and Google Analytics (Competitor 2) described in the previous sections. Basic integration requires about 10 minutes of developer time, and will record basic information such as session durations, locations, demographics, etc. The developer can also specify specific events they wish to track, such as a button click or a page view. Overall the process for a developer to integrate Localytics into their app follows the same strategy as Google Analytics' and Flurry's offerings. As mentioned above, there seems to be an industry standard approach to gathering metrics. However, the API for Localytics seems to be simpler in nature, with a focus on ease of use.\\\\
+Localytics offers a web based dashboard to view and analyze metrics. Expect it to be on par with the offerings by Google Analytics and Flurry. There are no native Android or iOS dashboards offered by Localytics.\\\\
+Localytics offers the ability to access or export data from their servers. There are three main options for exporting. Downloading text-based log files, exporting data into a database, or using Amazon's Elastic MapReduce to perform Hadoop queries. Without going into the technical details, these export options allow developers of custom dashboards to easily access the data in their preferred format.\\\\
+There are two potential strategies for integration with Localytics. A similar strategy as described for the previous competitors could be followed, where data is exported en masse to Salesforce's servers. But we've discussed how this approach offers little value. The real potential lies in the fact that Localytics offers an open source SDK with a seemingly very liberal license. From a brief analysis of the source code, it seems possible to modify the SDK to send data directly to a Salesforce database instead of the Localytics servers. The difficult work of defining metric data types, figuring out how to collect them, and many other technical challenges have already been solved. As was mentioned, the Localytics SDK is very well thought out and simple for the app developer to use. This simplicity would be hard to improve upon if a from-scratch solution is pursued. By modifying the open source SDK to store data in a Salesforce database, users of the SDK would never need to know of or interact with Localytics, or any third party for that matter. The mobile app developer would download and use the Salesforce edition of the SDK, which would send data to a Salesforce database using their account. There would be a dashboard that the user could log into using their Salesforce account in order to view and analyze metrics. This strategy should receive serious consideration as it offers massive advantages and no foreseeable disadvantages. Further inspection of the open source license should be completed by competent parties to ensure the viability of this option. License information is viewable at the following URL: \url{http://www.localytics.com/docs/opensourceinfo/}\\\\
+Localytics as a service that stores metrics data should be viewed as a direct competitor. But the use of a modified version of their SDK in the proposed Salesforce product is very attractive.
+\end{document}

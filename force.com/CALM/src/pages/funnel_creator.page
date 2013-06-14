@@ -1,0 +1,515 @@
+<apex:page controller="FunnelsWebservice" showHeader="false" docType="html-5.0" standardStylesheets="false">
+    <apex:stylesheet value="{!$Resource.dashboardCSS}" />
+    <apex:includeScript value="{!$Resource.jQuery}"/>
+    
+    <div class="chart_container" id="container">
+        <div class="disabled-message hidden">Funnels are disabled<br /><br />Visit the <a href="#" onClick="loadChart('app_registration', false, false)">Manage Applications</a> page to enable this feature</div>
+		<div class="no-funnels-message hidden">Whoops! There's no Funnels data</div>
+        
+        <div class="funnel-menu-bar">
+            <a href="#" onclick='newFunnel(); return false' class="new-funnel align-right"><span>New Funnel</span></a>
+        </div>
+            <ul>
+                <li class="oracle-li">
+                    <div class="step-name view-mode">
+                        <label><span class='align-left'><span class="step-name"></span><span class="step-count"></span></span><span class='align-right'><span class="step-percent"></span></span></label>
+                    </div>
+                    <div class="step-bar view-mode">
+                        <div class="step-bar-fill view-mode"></div>
+                    </div>
+                    <div class="align-left">
+                        <label class="create-mode"><span>Step Component</span>
+                            <select class="step_type_name" onchange="handleSelectedOptionChanged($(this))">
+                                <option value="null">----</option>
+                                <optgroup label="Events" class="eventsGroup" dt="e"></optgroup>
+                                <optgroup label="Screens" class="screensGroup" dt="s"></optgroup>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="align-right create-mode">
+                        <a href="#" onclick="removeStep(this); return false" class="remove-step disabled">remove</a>
+                    </div>
+                </li>
+            </ul>
+            
+        <div class="steps_container oracle-steps-container">
+            <ul class="steps step_list">
+                <li class="funnel-header">
+                    <div class="align-left">
+                        <input class="funnel_name" placeholder="New Funnel Name" type="text"></input><span class='input-error'>Please enter a unique name</span><span class='step-error'>Please enter at least one step</span>
+                    </div>
+                    <div class="align-right">
+                        <a href='#' onclick='viewFunnel(this); return false' class='create-mode view-funnel'>Save Funnel</a>
+                        <a href='#' onclick='editFunnel(this); return false' class='view-mode edit-funnel'>Edit Funnel</a>
+                        <a href='#' onclick='deleteFunnel(this); return false' class='close-icon'><img src='{!$Resource.imgCloseFunnel}'></img></a>
+                    </div>
+                </li>
+            </ul>
+            <div class="buttons-container create-mode">
+                <div class="align-left"><button class="add_step" onclick="addStep(this)">Add Step</button></div>
+                <div class="align-right"></div>
+            </div>
+        </div>
+
+    </div>
+    
+    <script>
+    	var funnelDepth;
+    	Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.FunnelsWebservice.remoteGetFunnelDepth}',
+                getCookie('app_id'),
+                function(result, event)
+                {
+        			funnelDepth = result;
+    			    
+    			    if (funnelDepth > 0) {
+			        	init(getCookie('app_id'));
+			        }
+			        else {
+			        	$('.loading').fadeOut(function() { $('.disabled-message').fadeIn(); });
+			        }
+        	    }
+         );
+        
+
+        function displaySavedFunnels() {
+            // get saved funnels
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.FunnelsWebservice.remoteGetSavedFunnels}',
+                getCookie('app_id'),
+                function(result, event)
+                {
+                    $('.loading').fadeOut(function() {
+                        $('.funnel-menu-bar').fadeIn();
+                        // if there are saved funnels
+                        if (event.status && result.length > 0)
+                        {
+                            // add the first step to the funnel
+                            $('.steps_container').each(function(index, elem) {
+                                addStep($(elem).find('.add_step'));
+                                $(elem).find('.create-mode').hide();
+                            })
+                            
+                            // for every funnel
+                            $.each(result, function(funnelIndex, funnel) {
+                                
+                                // create a new funnel and set it's name
+                                var newFun = newFunnel(false);
+                                
+                                $(newFun).find('input').val(funnel.n);
+                                
+                                // for each step in the funnel
+                                $.each(funnel.sd, function(stepIndex, step){
+                                    // create a new step and set it's value
+                                    addStep();
+                                    $(newFun).find('li:last').find('select').val(step.n);
+                                });
+                                                            
+                                // fade in the view-mode UI
+                                fadeInViewMode(newFun);
+                                $(newFun).fadeIn();
+                                
+                                // set view-mode data
+                                var stepDetails = funnel.sd;
+                                if (stepDetails.length > 0) {
+                                   var total = stepDetails[0].c;
+    
+                                    $(newFun).find('.step-bar-fill').each(function(index, elem){
+                                        // set the step bar to their proper widths based on the data
+                                        $(elem).css('width', (stepDetails[index].c/total)*100 + '%');
+                                        
+                                        // set the label to be the step name and number of occurences
+                                        $(elem).parents('li').find('span.step-name').html(stepDetails[index].n);
+                                        $(elem).parents('li').find('span.step-count').html(' - ' + stepDetails[index].c + ' occurences');
+                                        
+                                        // display data bars and labels
+                                        if (stepDetails[index].c/total > 0) {
+                                           $(elem).fadeIn(); // TODO: Replae with slide in from right
+                                        }
+                                        $(elem).parents('li').find('span').fadeIn();
+                                        
+                                    });
+                                    
+                                    // set percentage label
+                                    $(newFun).find('span.step-percent').each(function(index, elem){
+                                        $(elem).html(Math.round((stepDetails[index].c/total)*1000)/10 + '%'); // rounded to one decimal
+                                    });
+                                }
+                                
+                            });
+                            
+                        }
+                        // no saved funnels, so go to create-mode
+                        else {
+                            // put a funnel on the page
+                            newFunnel();
+                            
+                            // add the first step to the funnel
+                            $('.steps_container').each(function(index, elem) {
+                                addStep($(elem).find('.add_step'));
+                            })
+                            
+                            // fade in the create-mode UI
+                            $('.create-mode').fadeIn()
+                        }
+                    });
+                },
+                {escape: true}
+            );
+        }
+        
+        // retrive the events and screen names using an APEX Webservice, then use that to fill the combo-boxes for creating funnel steps
+        // then load any saved funnels
+        function init(appKey) {
+        	// get event and screen names
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.FunnelsWebservice.remoteGetActionNames}',
+                appKey,
+                function(result, event)
+                {
+                    // if the remote action call was sucessful
+                    if (event.status && (result.events.length || result.screens.length))
+                    {
+                        var eventNames = result.events.sort();
+                        var screenNames = result.screens.sort();
+                        
+                        // fill the combo boxes with the event and screen names
+                        fillComboBoxes(eventNames, screenNames);
+                        
+                        displaySavedFunnels();
+                    }
+                    else {
+                    	$('.loading').fadeOut(function(){
+                        		$('.no-funnels-message').fadeIn();
+                        })
+                    }
+                },
+                {escape: true}
+            );
+        }
+
+        // fill all of the combo boxes with event names and screen names
+        function fillComboBoxes(eventNames, screenNames) {        
+            fillOptGroup($('.eventsGroup')[0], eventNames);
+            fillOptGroup($('.screensGroup')[0], screenNames);
+        }
+        
+        // fill the optgroup in a combo box with the given elements
+        function fillOptGroup(group, elems) {
+            $.each(elems, function(index, elem)
+            {
+                var option = document.createElement("option");
+                option.text = elem;
+                option.value = elem;
+                group.appendChild(option, null);
+            });
+        }
+
+    </script>
+    
+    <script>
+        
+        // put a new funnel onto the screen
+        // if display == false, the newFunnel is not displayed and it's dom element is returned
+        function newFunnel(display) {
+            var newFun = $('.oracle-steps-container').clone(true);
+
+            $(newFun).removeClass('oracle-steps-container').css('display', 'none').appendTo('.chart_container');
+            if (display == false) {
+                return newFun;
+            }
+            else {
+                $(newFun).fadeIn();
+                $(newFun).find('.create-mode').fadeIn()
+            }
+        }
+        
+        // delete the funnel that contains the child element
+        function deleteFunnel(child) {
+            $(child).parents('.steps_container').fadeOut(400, function() {
+                $(child).parents('.steps_container').remove();
+            });
+            
+            // delete the funnel on the server
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.FunnelsWebservice.remoteDeleteFunnels}',
+                $(child).parents('.steps_container').find('input').val(), getCookie('app_id'),
+                function(result, event)
+                {
+                    // do nothing
+                },
+                {escape: true}
+            );
+        }
+        
+        
+        // a listener for when a select-box's selected value changes
+        function handleSelectedOptionChanged(elem) {
+            // disable the selected item in all other select-boxes to prevent duplicate steps
+            disableSelectedOptions(elem);
+        }
+        
+        // disable the options that are selected in the select elements that are in the same funnel as child
+        function disableSelectedOptions(child)
+        {
+            // gather the currently selected options
+            var toDisable = new Array();
+            $(child).parents('.steps_container').find('option:selected').each(function()
+            {
+                toDisable.push(this.text);
+            });
+            
+            // disable the currently selected options in each select tag in the funnel that contains child
+            $(child).parents('.steps_container').find('select').each(function()
+            {
+                var selectTag = this;
+                // re-enable all options for the current select tag
+                $(selectTag).find('option').each(function()
+                {
+                    $(this).attr('disabled',false);
+                })
+                
+                // disable the already selected options
+                $.each(toDisable, function(index, elem)
+                {
+                    $(selectTag).find("option[value='" + elem + "']").attr('disabled',true);
+                });
+            });
+        }
+        
+        // add a new step to the funnel that contains child
+        function addStep(child)
+        {
+            // add another step
+            var ul;
+            if (child == undefined) {
+                ul = $('.steps_container:last').find('.step_list');
+            }
+            else {
+                ul = $(child).parents('.steps_container').find('.step_list');
+            }
+            var newStep = $('li.oracle-li').clone(true).removeClass('oracle-li').css('display','none').appendTo(ul);
+            disableSelectedOptions(child);
+            
+            limitSteps(child);
+            alternateRowColor($(child).parents('.steps_container'));
+            
+            // slide the new step onto screen
+            $(child).parents('.steps_container').find('.create-mode').show();
+            newStep.slideDown('fast');
+        }
+        
+        // remove the step that contains the childElement by sliding it up
+        function removeStep(childElement) {
+            // if the remove button wasn't disabled
+            if (!$(childElement).hasClass('disabled')) {
+                // remove the step
+                $(childElement).parents('li:not(.oracle-li)').slideUp('fast', function(){
+                    var container = $(childElement).parents('ul'); // keep track of this, so we can know the funnel that the step belonged to
+                    $(childElement).parents('li').remove();
+                    disableSelectedOptions(container);
+                    alternateRowColor(container.parents('.steps_container'));
+                    limitSteps(container);
+                });
+            }
+        }
+        
+        // remove the steps that contain the childElements.
+        function removeSteps(childElements) {
+            $(childElements).each(function(index, elem) {
+                $(elem).parents('li:not(.oracle-li)').remove();
+            });
+        }
+                
+        // alternate the row color of each step in a funnel
+        function alternateRowColor(container) {
+            // alternate row color
+            $(container).find('.step_list li:nth-child(even)').removeClass('alternate');
+            $(container).find('.step_list li:nth-child(odd)').addClass('alternate');
+            $(container).find('.step_list li.funnel-header').removeClass('alternate');
+        }
+        
+        // remove alternating colors for each step in a funnel
+        function dealternateRowColor(container) {
+            $(container).find('.step_list li').removeClass('alternate');
+        }
+        
+        // disable/enable the add step button based on how many steps there are
+        function limitSteps(child) {
+        
+            // limit number of steps
+            if ($(child).parents('.steps_container').find('li').size() > funnelDepth) {
+                $(child).parents('.steps_container').find('.add_step').attr('disabled','disabled');
+            }
+            else {
+                $(child).parents('.steps_container').find('.add_step').attr('disabled',false);
+            }
+            
+            // allow at fewest 1 step
+            if ($(child).parents('.steps_container').find('li:not(.funnel-header)').size() <= 1) {
+                $(child).parents('.steps_container').find('.remove-step').addClass('disabled');
+            }
+            else {
+                $(child).parents('.steps_container').find('.remove-step').removeClass('disabled');
+            }
+        }
+        
+        // switch to view mode
+        function viewFunnel(subComponenet) {
+            var container = $(subComponenet).parents('.steps_container');
+
+            // gather the currently selected options
+            var funnelSteps = new Array();
+            $(container).find('option:selected').each(function()
+            {
+                if (this.value != 'null') {
+                    var step = new Object();
+                    step.n = this.text;
+                    step.dt = $(this).parents('optgroup').attr('dt');
+                    funnelSteps.push(step);
+                }
+            });
+            
+            // check that the funnel has steps to save
+            if (funnelSteps.length == 0) {
+                $(container).find('.input-error').hide() // make sure no other errors are on the page
+                $(container).find('.step-error').fadeIn();
+                return;
+            }
+            $(container).find('.step-error').fadeOut();
+            
+            var funnel = new Object();
+            // check that the user entered a unique name for the funnel
+            if ($(container).find('input').val().trim() == '' || !isUniqueName($(container).find('input').val())) {
+                $(container).find('.step-error').hide(); // make sure no other errors are on the page
+                $(container).find('.input-error').fadeIn();
+                return;
+            }
+            $(container).find('.input-error').fadeOut();
+            funnel.n = $(container).find('input').val();
+            funnel.sd = funnelSteps;
+            
+            // save funnel configuration
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.FunnelsWebservice.remoteSaveFunnel}',
+                funnel, getCookie('app_id'),
+                function(result, event)
+                {
+                    // do nothing
+                },
+                {escape: true}
+            );
+            
+            // get funnel data
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.FunnelsWebservice.remoteGetFunnel}',
+                funnelSteps, getCookie('app_id'),
+                function(result, event)
+                {
+                    // if the remote action call was sucessful
+                    if (event.status && result.length > 0)
+                    {
+                        var total = result[0].c;
+                        $(container).find('.step-bar-fill').each(function(index, elem){
+                            // set the step bar to their proper widths based on the data
+                            $(elem).css('width', (result[index].c/total)*100 + '%');
+                            
+                            // set the label to be the step name and number of occurences
+                            $(elem).parents('li').find('span.step-name').html(result[index].n);
+                            $(elem).parents('li').find('span.step-count').html(' - ' + result[index].c + ' occurences');
+                            
+                            // display data bars and labels
+                            if (result[index].c/total > 0) {
+                               $(elem).fadeIn(); // TODO: Replae with slide in from right
+                            }
+                            $(elem).parents('li').find('span').fadeIn();
+                            
+                        });
+                        
+                        // set percentage label
+                        $(container).find('span.step-percent').each(function(index, elem){
+                            $(elem).html(Math.round((result[index].c/total)*1000)/10 + '%'); // rounded to one decimal
+                        });
+                    }
+                },
+                {escape: true}
+            );
+            
+            // hide create-mode, then fade in view-mode
+            $(container).find('.create-mode').hide();
+            fadeInViewMode(container);
+        }
+        
+        // switch to edit mode
+        function editFunnel(subComponent) {
+            var container = $(subComponent).parents('.steps_container');
+            
+            // hide view-mode, then fade in create-mode
+            $(container).find('.view-mode').hide();
+            fadeInCreateMode(container);
+        }
+        
+        // fade in view mode
+        function fadeInViewMode(container) {
+
+            // remove any un-selected steps
+            var toRemove = new Array();
+            $(container).find('select').each(function(index, elem) {
+                if ($(elem).val() == 'null') {
+                    toRemove.push($(elem));
+                }
+            });
+            removeSteps(toRemove);
+            
+            // remove alternating colors
+            dealternateRowColor(container);
+            
+            // remove inner step borders
+            $(container).find('li:not(li:first)').css('border-top', '0px');
+            $(container).find('li:not(li:last)').css('border-bottom', '0px');
+            
+            //disable editing of funnel name
+            $(container).find('input').prop('disabled', true);
+            
+            // fade in view-mode, except for fill bars
+            $(container).find('.view-mode').fadeIn();
+            $(container).find('.step-bar-fill').hide(); // don't show step bars until data loaded
+            $(container).find('span').hide(); // don't show data labels until data loaded
+        }
+        
+        // fade in create mode
+        function fadeInCreateMode(container) {
+             // this needs to be here as a redundancy for the oracle-li, always keep it hidden
+            $('.oracle-li .view-mode').css('display', 'none');
+            
+            // alternate rows and colors and limit steps
+            alternateRowColor(container);
+            limitSteps($(container).find('.add_step'));
+            
+            // add step borders
+            $(container).find('li').removeAttr('style');
+            
+            //enable editing of funnel name
+            $(container).find('input').prop('disabled', false);
+            
+            // remove data labels
+            $(container).find('span.step-name').html('');
+            $(container).find('span.step-count').html('');
+            $(container).find('span.step-percent').html('');
+            
+            // fade in create-mode
+            $(container).find('.create-mode').fadeIn();
+        }
+        
+        function isUniqueName(name) {
+            var ret = true;
+            $('.steps_container').find('.funnel_name').each(function(i, e) {
+                if ($(e).is(':disabled') && $(e).val() == name) {
+                    ret = false;
+                }
+            });
+            return ret;
+        }
+        
+    </script>
+</apex:page>

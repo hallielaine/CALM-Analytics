@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Action</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Actions</value>
+    </caseValues>
+    <fields>
+        <help><!-- The time at which the event occurred --></help>
+        <label><!-- Time --></label>
+        <name>ct__c</name>
+    </fields>
+    <fields>
+        <help><!-- Describes the type of action. &apos;e&apos; for an event, and &apos;s&apos; for a screen. --></help>
+        <label><!-- Action Type --></label>
+        <name>dt__c</name>
+        <picklistValues>
+            <masterLabel>e</masterLabel>
+            <translation><!-- e --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>s</masterLabel>
+            <translation><!-- s --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <help><!-- Name of the event --></help>
+        <label><!-- Name --></label>
+        <name>n__c</name>
+    </fields>
+    <fields>
+        <label><!-- Session --></label>
+        <name>sl__c</name>
+        <relationshipLabel><!-- Actions --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- The ID of the Session in which this event occurred --></help>
+        <label><!-- Session ID --></label>
+        <name>su__c</name>
+    </fields>
+    <fields>
+        <help><!-- A unique ID for an action --></help>
+        <label><!-- Action ID --></label>
+        <name>u__c</name>
+    </fields>
+    <startsWith>Vowel</startsWith>
+</CustomObjectTranslation>

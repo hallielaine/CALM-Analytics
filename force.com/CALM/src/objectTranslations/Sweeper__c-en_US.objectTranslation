@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Sweeper</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Sweepers</value>
+    </caseValues>
+    <fields>
+        <label><!-- App Key --></label>
+        <name>au__c</name>
+    </fields>
+    <fields>
+        <label><!-- End Date --></label>
+        <name>edate__c</name>
+    </fields>
+    <fields>
+        <label><!-- Start Date --></label>
+        <name>sdate__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

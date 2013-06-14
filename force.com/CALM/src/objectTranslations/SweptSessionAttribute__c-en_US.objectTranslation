@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Swept Session Attribute</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Swept Session Attributes</value>
+    </caseValues>
+    <fields>
+        <label><!-- Attribute Type --></label>
+        <name>at__c</name>
+        <picklistValues>
+            <masterLabel>av_</masterLabel>
+            <translation><!-- av_ --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>dlc</masterLabel>
+            <translation><!-- dlc --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>dll</masterLabel>
+            <translation><!-- dll --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>dma</masterLabel>
+            <translation><!-- dma --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>dmo</masterLabel>
+            <translation><!-- dmo --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>dov</masterLabel>
+            <translation><!-- dov --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>du_</masterLabel>
+            <translation><!-- du_ --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>lv_</masterLabel>
+            <translation><!-- lv_ --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>nca</masterLabel>
+            <translation><!-- nca --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Name --></label>
+        <name>n__c</name>
+    </fields>
+    <fields>
+        <label><!-- Session Count --></label>
+        <name>sc__c</name>
+    </fields>
+    <fields>
+        <label><!-- Sweeper --></label>
+        <name>swp__c</name>
+        <relationshipLabel><!-- Swept Session Attributes --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- User Count --></label>
+        <name>uc__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,263 @@
+<apex:page showHeader="false" docType="html-5.0" standardStylesheets="false">
+    <apex:stylesheet value="{!$Resource.dashboardCSS}" />
+    <apex:stylesheet value="{!$Resource.dashboardWebCSS}" />
+    <apex:stylesheet value="{!$Resource.jQueryUICSS}" />
+    <apex:includeScript value="{!$Resource.jQuery}"/>
+    <apex:includeScript value="{!$Resource.jQueryUI}"/>
+    <apex:includeScript value="{!$Resource.dateParseJS}"/>
+    <apex:includeScript value="{!$Resource.dashboardJS}"/>
+    <apex:includeScript value="{!$Resource.momentJS}"/>
+    <apex:includeScript value="{!$Resource.jQuerybbqJS}"/>
+    <apex:includeScript value="{!$Resource.cookieJS}"/>
+   <head>
+   	  <title>CALM Dashboard</title>
+   </head>
+    <body>
+        <div id="page_container">
+            <div id="header">
+                <div id="top_ban"><a href="#" onClick="loadChart('homepage_content', 'false', 'false'); return false"><img src="{!$Resource.dashboardHeaderPNG}" /></a></div>
+                <div id="menu" class="right">                    
+                        <ul id="nav">
+                            <li> <a href="#" onClick="loadChart('homepage_content', 'false', 'false'); return false">Home</a></li>
+                            <li><a href="#">Usage</a>
+                                <ul>
+                                    <li><a href="#" onClick="loadChart('sessions_over_time', 'true', 'false'); return false">Sessions</a></li>
+                                    <li><a href="#" onClick="loadChart('users_over_time', 'true', 'false'); return false">Users</a></li>
+                                    <li><a href="#" onClick="loadChart('country', 'true', 'true'); return false">Country</a></li>
+                                    <li><a href="#" onClick="loadChart('app_version', 'true', 'true'); return false">App Version</a></li>
+                                    <li><a href="#" onClick="loadChart('network_carriers', 'true', 'true'); return false">Network Carrier</a></li>
+                                    <li><a href="#" onClick="loadChart('session_length', 'true', 'false'); return false">Session Length</a></li>
+                                    <li><a href="#" onClick="loadChart('new_vs_returning', 'true', 'true'); return false">New vs Returning</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#" onClick="loadChart('Screens', 'false', 'false'); return false">Screens</a></li>
+                            <li><a href="#" onClick="loadChart('events_overview', 'true', 'false'); return false">Events</a></li>
+                            <li><a href="#" onClick="loadChart('funnel_creator', 'false', 'false'); return false">Funnels</a></li>
+                        </ul>
+                    </div>
+            </div>
+            <div class="colmask fullpage">
+                <div class="col1">
+                    <div id="datePicker">
+                         <label for="start">Start Date:</label>
+                         <input type="text" id="start" onChange="validateDates();"></input>
+                         <label for="end">End Date:</label>
+                         <input type="text" id="end" onChange="validateDates();"></input>
+                         <button id="reload" onClick="reloadChart();">Reload Chart</button>
+                    </div>
+                    <div id="multigraph" class="right">
+                         <button id="users" onClick="loadUserChart();">Users</button>
+                         <button id="sessions" onClick="loadSessionChart();">Sessions</button>
+                    </div>
+                    
+                    <div id="messages"></div>
+                    <div class="loading">Loading</div>
+                    <div id="chart"></div>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript">
+            var deparam = $.deparam;
+            var today = new Date();
+            var yesterday = new Date();
+            
+            function loadChart(url, date, multigraph)
+            {
+            	document.getElementById("chart").innerHTML = "";
+            	$('.loading').fadeIn();
+            	
+                $(document).ready(function()
+                {
+                    if (date == 'true')
+                       showDatePicker();
+                    else 
+                       hideDatePicker();
+                    sendUserMessage("");
+                    
+                    if (multigraph == 'true')
+                    {
+                        url = setupMultigraphURL(url);
+                        showMultigraphOptions();
+                    }
+                    else
+                        hideMultigraphOptions();
+                                        
+                    url = addDateParams(url);
+                    $('#chart').data('url', url);
+                    $('#chart').load(url, function() {
+                        // Save the URL currently loaded into the div
+                   		$('#chart').data('url', url);
+                        $('#chart').data('date', date)
+                        $('#chart').data('multigraph', multigraph)
+                        // Save a cookie with chart info
+                        setCookie("current_page", url, 7);
+                        setCookie("has_date", date, 7);
+                        setCookie("has_multigraph", multigraph, 7);
+                    });
+                });
+            }
+            
+            function reloadChart()
+            {
+               loadChart($('#chart').data('url'), $('#chart').data('date'), $('#chart').data('multigraph'));
+            }
+            
+            function loadUserChart()
+            {
+                var url = removeMultigraphURL($('#chart').data('url')) + "_users";
+                $('#chart').data('url', url);
+                reloadChart();
+            }
+            
+            function loadSessionChart()
+            {
+                var url = removeMultigraphURL($('#chart').data('url')) + "_sessions";
+                $('#chart').data('url', url);
+                reloadChart();
+            }
+            
+            function addDateParams(url)
+            {
+                // Check for event specific graph
+                var event = deparam.querystring(url).event;
+                                
+                var params = url.indexOf('?');
+                if (params > 0)
+                    url = url.substring(0, params);
+                var startdate = document.getElementById("start").value;
+                var enddate = document.getElementById("end").value;
+                var src = url + '?';
+                
+                // Add an existing event ID to graph
+                if (event)
+                   src = src + $.param({event: event}) + '&';
+                
+                // Add start date
+                src = src + $.param({start: startdate}) +
+                                '&' + $.param({end: enddate});
+                return src;
+            }
+            
+            function removeMultigraphURL(url)
+            {
+                var sessions = url.indexOf("sessions");
+                var users = url.indexOf("users");
+                var index;
+                
+                if (sessions < 0)
+                    index = users;
+                if (users < 0)
+                    index = sessions;
+                    
+                return url.substring(0, index-1);
+            }
+            
+            function setupMultigraphURL(url)
+            {
+                var sessions = url.indexOf("sessions");
+                var users = url.indexOf("users");
+                
+                if (sessions >= 0)
+                {
+                    document.getElementById("sessions").disabled = true;
+                    document.getElementById("users").disabled = false;
+                }
+                else
+                {
+                    document.getElementById("sessions").disabled = false;
+                    document.getElementById("users").disabled = true;
+                }
+                
+                if (sessions < 0 && users < 0)
+                    return url + "_users";
+                
+                return url;
+            }
+            
+            function hideDatePicker()
+            {
+                document.getElementById("datePicker").style.display = "none";
+            }     
+                   
+            function showDatePicker()
+            {
+                document.getElementById("datePicker").style.display = "";
+            }
+            
+            function hideMultigraphOptions()
+            {
+                document.getElementById("multigraph").style.display = "none";
+            }
+            
+            function showMultigraphOptions()
+            {
+                document.getElementById("multigraph").style.display = "";
+            }
+            
+            function validateDates()
+            {
+                var startdate = document.getElementById("start").value;
+                var enddate = document.getElementById("end").value;
+                if (startdate != null && enddate != null)
+                {
+                   if (shouldParse(start.value,end.value))
+                   {
+                       if (validDates(start.value, end.value))
+                       {
+                           validInput();
+                       }
+                       else
+                       {
+                           invalidInput();
+                       }
+                   }
+                   else
+                   {
+                       validInput();
+                   }
+                }
+            }
+            
+            function validInput() 
+            {
+                document.getElementById("start").style.backgroundColor = '';
+                document.getElementById("end").style.backgroundColor = '';
+                document.getElementById("reload").disabled = false;
+                sendUserMessage("");
+            }
+            
+            function invalidInput()
+            {
+                document.getElementById("start").style.backgroundColor = '#FF6666';
+                document.getElementById("end").style.backgroundColor = '#FF6666';
+                document.getElementById("reload").disabled = true;
+                sendUserMessage("Please provide a valid date range.");
+            }
+            
+            $('#start').datepicker({
+                dateFormat: 'yy-mm-dd',
+                maxDate: yesterday
+            });
+            $('#end').datepicker({
+                dateFormat: 'yy-mm-dd',
+                maxDate: yesterday
+            });
+            
+            $(window).load(function () {
+                 var chart = getCookie("current_page");
+                 var date = getCookie("has_date");
+                 var multigraph = getCookie("has_multigraph");
+                 // if cookies exist, then load the chart.
+                 if (chart != null && date != null && multigraph != null) {
+                    loadChart(chart, date, multigraph);
+                 }
+                 else {
+                    loadChart('homepage_content', 'false', 'false');
+                 }
+                 yesterday.setDate(today.getDate() - 1);
+            });
+            
+        </script>
+    </body>
+</apex:page>

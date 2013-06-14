@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Step</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Steps</value>
+    </caseValues>
+    <fields>
+        <label><!-- Action Name --></label>
+        <name>an__c</name>
+    </fields>
+    <fields>
+        <label><!-- Action Type --></label>
+        <name>dt__c</name>
+        <picklistValues>
+            <masterLabel>e</masterLabel>
+            <translation><!-- e --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>s</masterLabel>
+            <translation><!-- s --></translation>
+        </picklistValues>
+    </fields>
+    <fields>
+        <label><!-- Funnel --></label>
+        <name>f__c</name>
+        <relationshipLabel><!-- Steps --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Funnel Name --></label>
+        <name>fn__c</name>
+    </fields>
+    <fields>
+        <label><!-- Position --></label>
+        <name>p__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Session</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Sessions</value>
+    </caseValues>
+    <fields>
+        <label><!-- Session Length --></label>
+        <name>Session_Length__c</name>
+    </fields>
+    <fields>
+        <help><!-- The key that differentiates different Android applications. --></help>
+        <label><!-- Application Key --></label>
+        <name>au__c</name>
+    </fields>
+    <fields>
+        <help><!-- Version of the Android application that uses the CALM API --></help>
+        <label><!-- Application Version --></label>
+        <name>av__c</name>
+    </fields>
+    <fields>
+        <help><!-- Country for the device&apos;s current locale settings --></help>
+        <label><!-- Country --></label>
+        <name>dlc__c</name>
+    </fields>
+    <fields>
+        <help><!-- Language for the device&apos;s current locale settings --></help>
+        <label><!-- Language --></label>
+        <name>dll__c</name>
+    </fields>
+    <fields>
+        <help><!-- Manufacturer of the device on which the Android application runs --></help>
+        <label><!-- Device Manufacturer --></label>
+        <name>dma__c</name>
+    </fields>
+    <fields>
+        <help><!-- Model of the device on which the Android application runs --></help>
+        <label><!-- Device Model --></label>
+        <name>dmo__c</name>
+    </fields>
+    <fields>
+        <help><!-- The Android OS Version --></help>
+        <label><!-- Android Version --></label>
+        <name>dov__c</name>
+    </fields>
+    <fields>
+        <help><!-- The key that differentiates unique Android devices. --></help>
+        <label><!-- Device Android Id Hash --></label>
+        <name>du__c</name>
+    </fields>
+    <fields>
+        <help><!-- The time at which the session was closed --></help>
+        <label><!-- End Time --></label>
+        <name>et__c</name>
+    </fields>
+    <fields>
+        <help><!-- Version of the CALM API --></help>
+        <label><!-- API Version --></label>
+        <name>lv__c</name>
+    </fields>
+    <fields>
+        <help><!-- Network carrier of the device. --></help>
+        <label><!-- Network Carrier --></label>
+        <name>nca__c</name>
+    </fields>
+    <fields>
+        <help><!-- &apos;Y&apos; if the Android Device ID is new as of this Session, &apos;N&apos; otherwise. --></help>
+        <label><!-- New vs Returning User --></label>
+        <name>nr__c</name>
+    </fields>
+    <fields>
+        <help><!-- The time at which the session was opened --></help>
+        <label><!-- Start Time --></label>
+        <name>st__c</name>
+    </fields>
+    <fields>
+        <help><!-- Unique ID of the Session --></help>
+        <label><!-- Session ID --></label>
+        <name>u__c</name>
+    </fields>
+    <startsWith>Consonant</startsWith>
+</CustomObjectTranslation>

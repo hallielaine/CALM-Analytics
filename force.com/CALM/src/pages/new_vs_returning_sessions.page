@@ -1,0 +1,117 @@
+<apex:page controller="NewReturningSessionsWebservice" showHeader="false" docType="html-5.0" standardStylesheets="false">
+    <apex:stylesheet value="{!$Resource.dashboardCSS}" />
+    <apex:includeScript value="{!$Resource.jQuery}"/>
+    <apex:includeScript value="{!$Resource.graphPageJS}"/>
+    <apex:includeScript value="{!$Resource.dateParseJS}"/>
+    <apex:includeScript value="{!$Resource.highchartsJS}"/>
+    <apex:includeScript value="{!$Resource.highchartsExportJS}"/>
+    <apex:includeScript value="{!$Resource.momentJS}"/>
+    <apex:includeScript value="{!$Resource.jQuerybbqJS}"/>
+    <apex:includeScript value="{!$Resource.linegraphJS}"/>
+
+    <div class="chart_container" id="container">
+        <canvas id="chartCanvas">
+            Your web-browser does not support the HTML 5 canvas element.
+        </canvas>
+    </div>
+
+    <script>
+    	$(document).ready(function() {
+		     if (!isAndroid()) { 
+		         document.getElementById("container").className = "web_chart_container";
+		     }
+		 
+		     var url = top.$('#chart').data('url');          
+		             
+		     var dates = parseDates($.deparam.querystring(url).start, $.deparam.querystring(url).end);
+		     if (dates.length != 0)
+		     {
+		         getNewVsReturningUserSessions(dates[0].toUTCString(), dates[1].toUTCString(), getCookie('app_id'));
+		     }
+		     else
+		     {
+		         getNewVsReturningUserSessions((new Date(0)).toUTCString(), (new Date()).toUTCString(), getCookie('app_id'));
+		     }
+		});
+		
+		function getNewVsReturningUserSessions(start, end, appKey)
+	     {
+	         Visualforce.remoting.Manager.invokeAction(
+	             '{!$RemoteAction.NewReturningSessionsWebservice.remoteGetSessionDetails}',
+	             start, end, appKey,
+	             function(result, event)
+	             {
+	             	 $('.loading').fadeOut(function() {
+		                 if (result.length == 0)
+		                 {
+		                     sendNoDataMessage();
+		                 }
+		                 if (event.status)
+		                 {
+		                 	 var name = "New vs. Returning User Sessions"
+			                 var newUserValues = new Array();
+						     var pair;
+						     
+						     var returnUserValues = new Array();
+						     var rpair;
+						     
+		                     $.each(result, function(index, elem)
+		                     {
+		                       pair = new Array();
+		                       rpair = new Array();
+		                       
+		                       if(elem.n == true)
+		                       {
+		                           pair.push(elem.d); // x-axis
+		                           pair.push(elem.c); // y-axis
+		                           newUserValues.push(pair);
+		                       }
+		                       else
+		                       {
+		                           rpair.push(elem.d); // x-axis
+		                           rpair.push(elem.c); // y-axis
+		                           returnUserValues.push(rpair);
+		                       }
+		                     });     
+		                     
+		                     if(newUserValues.length == 0)
+		                     {
+		                         newUserValues.push(new Array());
+		                     }
+		                     
+		                     if(returnUserValues.length == 0)
+		                     {
+		                         returnUserValues.push(new Array());
+		                     }   
+		                     
+		                     var newUsers = new Object();
+		                     var returningUsers = new Object();
+		                     var series = new Array();
+		                     
+		                     newUsers.name = "New User Sessions";
+		                     newUsers.data = newUserValues;
+		                     
+		                     returningUsers.name = "Returning User Sessions";
+		                     returningUsers.data = returnUserValues;
+		                     
+		                     series.push(newUsers);
+		                     series.push(returningUsers);
+		                     
+		                     drawLineGraph(name, "", series, start, end);
+		                 }
+		                 else if (event.type === 'exception')
+		                 {
+		                     console.log('exception');
+		                 }
+		                 else
+		                 {
+		                     console.log('error');
+		                 }
+		             });
+	             },
+	             {escape: true}
+	         );
+	     }
+	
+    </script>
+</apex:page>

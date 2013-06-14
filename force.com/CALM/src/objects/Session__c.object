@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <fields>
+        <fullName>Session_Length__c</fullName>
+        <description>Session length in milliseconds</description>
+        <externalId>false</externalId>
+        <formula>et__c - st__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Session Length</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>au__c</fullName>
+        <description>The key that differentiates different Android applications.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The key that differentiates different Android applications.</inlineHelpText>
+        <label>Application Key</label>
+        <length>64</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>av__c</fullName>
+        <description>Version of the Android application that uses the CALM API</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Version of the Android application that uses the CALM API</inlineHelpText>
+        <label>Application Version</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>dlc__c</fullName>
+        <description>Country for the device&apos;s current locale settings</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Country for the device&apos;s current locale settings</inlineHelpText>
+        <label>Country</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>dll__c</fullName>
+        <description>Language for the device&apos;s current locale settings</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Language for the device&apos;s current locale settings</inlineHelpText>
+        <label>Language</label>
+        <length>5</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>dma__c</fullName>
+        <description>Manufacturer of the device on which the Android application runs</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Manufacturer of the device on which the Android application runs</inlineHelpText>
+        <label>Device Manufacturer</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>dmo__c</fullName>
+        <description>Model of the device on which the Android application runs</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Model of the device on which the Android application runs</inlineHelpText>
+        <label>Device Model</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>dov__c</fullName>
+        <description>The Android OS Version</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The Android OS Version</inlineHelpText>
+        <label>Android Version</label>
+        <length>20</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>du__c</fullName>
+        <description>The key that differentiates unique Android devices.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The key that differentiates unique Android devices.</inlineHelpText>
+        <label>Device Android Id Hash</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>et__c</fullName>
+        <description>The time at which the session was closed</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The time at which the session was closed</inlineHelpText>
+        <label>End Time</label>
+        <required>false</required>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>lv__c</fullName>
+        <description>Version of the CALM API</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Version of the CALM API</inlineHelpText>
+        <label>API Version</label>
+        <length>20</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>nca__c</fullName>
+        <description>Network carrier of the device.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Network carrier of the device.</inlineHelpText>
+        <label>Network Carrier</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>nr__c</fullName>
+        <description>This marks a session object as &apos;New&apos; or &apos;Returning&apos; if the device ID of the android phone is a new ID or an ID that already exists in the database. True/Checked denotes a &apos;New&apos; device ID and False/Unchecked denotes a &apos;Returning&apos; user.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>&apos;Y&apos; if the Android Device ID is new as of this Session, &apos;N&apos; otherwise.</inlineHelpText>
+        <label>New vs Returning User</label>
+        <length>1</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>st__c</fullName>
+        <description>The time at which the session was opened</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The time at which the session was opened</inlineHelpText>
+        <label>Start Time</label>
+        <required>true</required>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>u__c</fullName>
+        <caseSensitive>true</caseSensitive>
+        <description>Unique ID of the Session</description>
+        <externalId>true</externalId>
+        <inlineHelpText>Unique ID of the Session</inlineHelpText>
+        <label>Session ID</label>
+        <length>36</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <label>Session</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>DetailedSessions</fullName>
+        <columns>u__c</columns>
+        <columns>st__c</columns>
+        <columns>et__c</columns>
+        <columns>au__c</columns>
+        <columns>dov__c</columns>
+        <columns>lv__c</columns>
+        <columns>av__c</columns>
+        <columns>dlc__c</columns>
+        <columns>dll__c</columns>
+        <columns>dma__c</columns>
+        <columns>dmo__c</columns>
+        <columns>du__c</columns>
+        <columns>nca__c</columns>
+        <columns>nr__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>Detailed Sessions</label>
+    </listViews>
+    <nameField>
+        <label>Session Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Sessions</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+</CustomObject>

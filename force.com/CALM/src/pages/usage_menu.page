@@ -1,0 +1,112 @@
+<apex:page showHeader="false" docType="html-5.0" standardStylesheets="false">
+    <apex:stylesheet value="{!$Resource.dashboardMobileCSS}" />
+    <apex:stylesheet value="{!$Resource.jQueryMobileCSS}" />
+    <apex:includeScript value="{!$Resource.jQuery}"/>
+    <apex:includeScript value="{!$Resource.jQueryUI}"/>
+    <apex:includeScript value="{!$Resource.jQuerybbqJS}"/>
+    <apex:includeScript value="{!$Resource.jQueryMobileJS}"/>
+    <apex:includeScript value="{!$Resource.dashboardMobileJS}"/>
+
+    <body> 
+        <div id="usage_menu" data-role="page" data-theme="a">
+            <div data-role="header" data-theme="d">
+                <h1>Usage Menu</h1>
+                <button onClick="go_back()" data-icon="arrow-l">Back</button>
+            </div>
+            <div data-role="content" data-theme="a" class="fit-content">
+            	<div data-role="collapsible-set">
+            		<div id="sessions" class="hideIcon" data-role="collapsible" data-theme="a">
+						<h3>Sessions</h3>
+            		</div>
+            		
+            		<div id="users" class="hideIcon" data-role="collapsible" data-theme="a">
+						<h3>Users</h3>
+            		</div>
+            		
+            		<div class="hideIcon" data-role="collapsible" data-theme="a">
+						<h3>Country</h3>
+						<ul data-role="listview">
+							<li><a onClick="javaScript:load_graph('country_sessions')">Sessions</a></li>
+                     <li><a onClick="javaScript:load_graph('country_users')">Users</a></li>
+						</ul>
+					</div>
+            							
+            		<div class="hideIcon" data-role="collapsible" data-theme="a">
+						<h3>App Version</h3>
+						<ul data-role="listview">
+							<li><a onClick="javaScript:load_graph('app_version_sessions')">Sessions</a></li>
+							<li><a onClick="javaScript:load_graph('app_version_users')">Users</a></li>
+						</ul>
+					</div>
+					
+					
+            		<div class="hideIcon" data-role="collapsible" data-theme="a">
+						<h3>Network Carrier</h3>
+						<ul data-role="listview">
+							<li><a onClick="javaScript:load_graph('network_carriers_sessions')">Sessions</a></li>
+							<li><a onClick="javaScript:load_graph('network_carriers_users')">Users</a></li>
+						</ul>
+					</div>
+					
+            		<div id="session_length" class="hideIcon" data-role="collapsible" data-theme="a">
+						<h3>Session Length</h3>
+            		</div>
+            		
+            		<div class="hideIcon" data-role="collapsible" data-theme="a">
+						<h3>New vs. Returning</h3>
+						<ul data-role="listview">
+							<li><a onClick="javaScript:load_graph('new_vs_returning_sessions')">Sessions</a></li>
+							<li><a onClick="javaScript:load_graph('new_vs_returning_users')">Users</a></li>
+						</ul>
+					</div>
+            	</div>
+            </div>
+        </div>
+        
+        <script>
+            $(document).ready(function()
+			{                 
+                $("#sessions h3").on("tap", function (event, ui) {
+                	load_graph('sessions_over_time');
+				    return false;
+				});
+				
+				$("#users h3").on("tap", function (event, ui) {
+                	load_graph('users_over_time');
+				    return false;
+				});				
+				
+				$("#session_length h3").on("tap", function (event, ui) {
+                	load_graph('session_length');
+				    return false;
+				});
+				
+				// For debug
+				$("#sessions h3").on("click", function (event, ui) {
+                	load_graph('sessions_over_time');
+				    return false;
+				});
+				
+				$("#users h3").on("click", function (event, ui) {
+                	load_graph('users_over_time');
+				    return false;
+				});				
+				
+				$("#session_length h3").on("click", function (event, ui) {
+                	load_graph('session_length');
+				    return false;
+				});
+            });
+                      
+            function go_back() {
+            	window.location.href = "android_main_menu";
+            }
+            
+            function load_graph(graph) {
+                 var url = "https://c.na11.visual.force.com/apex/android_graph_page";
+                 url = url + '?' + $.param({graph: graph}) + '&' + $.param({parent: 'usage_menu'});
+                 window.location.href = url;
+            }
+    	</script>
+    </body>
+</apex:page>

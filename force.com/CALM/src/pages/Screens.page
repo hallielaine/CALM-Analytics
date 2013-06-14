@@ -1,0 +1,130 @@
+<apex:page controller="ScreenWebservice" showHeader="false" docType="html-5.0" standardStylesheets="false">
+    <apex:stylesheet value="{!$Resource.dashboardCSS}" />
+    <apex:stylesheet value="{!$Resource.flowtreeCSS}" />
+    <apex:includeScript value="{!$Resource.jQuery}"/>
+    <apex:includeScript value="{!$Resource.flowtreeJS}"/>
+    
+    <div class="disabled-message hidden">Screens are disabled<br /><br />Visit the <a href="#" onClick="loadChart('app_registration', false, false)">Manage Applications</a> page to enable this feature</div>
+    <div class="no-screens-message hidden">Whoops! There's no Screens data</div>
+        
+    <div id="screens" style="overflow: auto; min-height: 600px; height: 100%; padding: 10px"></div>
+    
+    <script>
+        /**
+         * @param parents array of FlowTreeNodes
+         */
+        var getNextRow = function (parents) {
+        	var names = [];
+        	var i;
+        	if (parents.length >= screenDepth) { return; }
+        	for (i = 0; i < parents.length; i++) {
+        		names.push (parents[i].params.text);
+        	}
+            Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.ScreenWebservice.remoteGetScreens}',
+                names, getCookie('app_id'),
+                function(result, event)
+                {
+                    $('.loading').fadeOut(function() {
+                        if (result && result.length) {
+                            // result is [{'n':'name','c':1}]
+                            var i,
+                            	total = 0,
+                            	row = [];
+                            
+                            for (i = 0; i < result.length; i++) {
+                                total += parseInt(result[i]['c'], 10);
+                            }
+                            for (i = 0; i < result.length; i++) {
+                                var entry = {};
+                                entry['text'] = result[i]['n'];
+                                entry['lineText'] = "" + Math.round(parseInt(result[i]['c'], 10) * 100 / total) + "%";
+                                entry = setupNodeParams (entry);
+                                row.push (entry);
+                            }
+        
+                            if (parents && parents.length) {
+                                var last = parents[parents.length - 1];
+                                var lastNdx = last.row.getIndex ();
+                                var tree = last.row.tree;
+                                
+                                // Make sure parents are still in the tree.
+                                // This can be a problem if the user clicks in
+                                // row 0 and then row 1 while the server is
+                                // processing the first request. So by the time
+                                // the response for the click in row 1 arrives,
+                                // row 1 is gone.
+                                if (lastNdx >= 0) {
+	                                // Remove all following rows
+	                                while (tree.rows.length - 1 > lastNdx) {
+	                                    tree.removeRow ();
+	                                }
+	                                
+	                                // Set the clicked node to be selected
+	                                last.row.setSelected (last);
+	                                
+	                                // Add the next row to the bottom of the tree
+	                                var i;
+	                                for (i in row) {
+	                                    row[i] = setupNodeParams (row[i]);
+	                                }
+	                                tree.addRow (row);
+                                }
+                            }
+                            else {
+                                var screens = {};
+                                screens['rows'] = [row];
+                                screens['appendTo'] = $('#screens');
+                                screens['vertical'] = isAndroid();
+                                var flowTree = new FlowTree(screens);
+                                $('#screens').on('scroll', function () {
+                                	flowTree.updateView();
+                              	});
+                            }
+                        }
+                        else {
+                        	$('.loading').fadeOut(function(){
+                        		$('.no-screens-message').fadeIn();
+                        	})
+                        }
+                    });
+                },
+                {escape: true}
+            );
+        };
+        
+        var setupNodeParams = function (params) {
+            params.makeClickHandler = function (node) {
+                var parents = [];
+                var cursor = node;
+                do {
+                    parents.unshift (cursor);
+                    cursor = cursor.parent;
+                } while (cursor);
+                return function() {
+                	//node.$.addClass('selected');
+                    getNextRow (parents);
+                };
+            };
+            return params;
+        };
+        
+        var screenDepth;
+    	Visualforce.remoting.Manager.invokeAction(
+                '{!$RemoteAction.ScreenWebservice.remoteGetScreenDepth}',
+                getCookie('app_id'),
+                function(result, event)
+                {
+        			screenDepth = result;
+    			    
+    			    if (screenDepth > 0) {
+        	        	getNextRow([]);
+			        }
+			        else {
+			        	$('.loading').fadeOut(function() { $('.disabled-message').fadeIn(); });
+			        }
+        	    }
+         );
+
+    </script>
+</apex:page>

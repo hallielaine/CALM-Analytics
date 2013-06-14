@@ -1,0 +1,88 @@
+<apex:page showHeader="false" docType="html-5.0" standardStylesheets="false">
+    <apex:stylesheet value="{!$Resource.dashboardMobileCSS}" />
+    <apex:stylesheet value="{!$Resource.jQueryMobileCSS}" />
+    <apex:includeScript value="{!$Resource.jQuery}"/>
+    <apex:includeScript value="{!$Resource.jQueryUI}"/>
+    <apex:includeScript value="{!$Resource.jQuerybbqJS}"/>
+    <apex:includeScript value="{!$Resource.jQueryMobileJS}"/>
+    <apex:includeScript value="{!$Resource.dashboardMobileJS}"/>
+    <apex:includeScript value="{!$Resource.cookieJS}"/>
+
+    <body>
+        <div id="android_main_menu" data-role="page" data-theme="a">
+            <div data-role="header" data-theme="d">
+                <h3>Main Menu</h3>
+            	<button onClick="go_back()" data-icon="arrow-l">Back</button>
+            </div>
+            <div data-role="content" data-theme="a" class="fit-content">
+            	<div data-role="collapsible-set">
+            		<div id="usage" class="hideIcon" data-role="collapsible" data-theme="a">
+						<h3>Usage</h3>
+            		</div>
+            		<div id="screens" class="hideIcon" data-role="collapsible" data-theme="a">
+						<h3>Screens</h3>
+            		</div>
+            		<div id="events" class="hideIcon" data-role="collapsible" data-theme="a">
+						<h3>Events</h3>
+            		</div>
+            		<div id="funnels" class="hideIcon" data-role="collapsible" data-theme="a">
+						<h3>Funnels</h3>
+            		</div>
+            	</div>
+            </div>
+        </div>
+        
+        <script>
+        	$("#usage h3").on("tap", function (event, ui) {
+                window.location = "https://c.na11.visual.force.com/apex/usage_menu";
+				return false;
+			});
+			
+        	$("#screens h3").on("tap", function (event, ui) {
+                load_graph('Screens');
+				return false;
+			});
+			
+        	$("#events h3").on("tap", function (event, ui) {
+                load_graph('events_overview');
+				return false;
+			});
+			
+        	$("#funnels h3").on("tap", function (event, ui) {
+                load_graph('funnel_creator');
+				return false;
+			});
+			
+			$("#usage h3").on("click", function (event, ui) {
+                window.location = "https://c.na11.visual.force.com/apex/usage_menu";
+				return false;
+			});
+			
+        	$("#screens h3").on("click", function (event, ui) {
+                load_graph('Screens');
+				return false;
+			});
+			
+        	$("#events h3").on("click", function (event, ui) {
+                load_graph('events_overview');
+				return false;
+			});
+			
+        	$("#funnels h3").on("click", function (event, ui) {
+                load_graph('funnel_creator');
+				return false;
+			});
+            
+            function go_back() {
+            	window.location.href = "android_homepage";
+            }
+                        
+            function load_graph(graph) {
+                 var url = "https://c.na11.visual.force.com/apex/android_graph_page";
+                 url = url + '?' + $.param({graph: graph}) + '&' + $.param({parent: 'android_main_menu'});
+                 window.location.href = url;
+            }
+
+        </script>
+    </body>
+</apex:page>
